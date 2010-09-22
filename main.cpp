@@ -56,7 +56,14 @@ string lexer(ifstream &file){
 	c = file.get();
 
 	do{
-		
+		if(isalpha(c)){
+			//identifier and keyword
+		} 
+		else if(isdigit(c)){
+			//int and real
+
+		}
+		else
 		switch(c){
 			case '\n':
 				c = file.get();
