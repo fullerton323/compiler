@@ -7,16 +7,24 @@ using namespace std;
 
 int main(void){
 
-	string file;
-	cout << "Enter your test case file";
-	cin >> file;
+	string infile, outfile;
+	cout << "Enter the output file";
+	cin >> outfile;
+	cout << "Enter the input file";
+	cin >>infile;
 
-	ofstream myfile (file);
-	if (myfile.is_open())
+	ifstream myinfile(infile);
+	outstream myoutfile(outfile);
+
+	if (myinfile.is_open())
 	{
-		myfile << "This is test number 1.\n";
-		myfile << "This is test number 2.\n";
-		myfile.close();
+
+		while(!myinfile.eof())
+		{
+
+		}
+		
+		myinfile.close();
 	}
 	else
 		cout << "Unable to open the file";
@@ -24,3 +32,6 @@ int main(void){
 
 	return 0;
 }
+
+
+
