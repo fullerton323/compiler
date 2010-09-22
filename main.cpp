@@ -58,15 +58,9 @@ string lexer(ifstream &file){
 	do{
 		if(isalpha(c)){
 			//identifier and keyword
-			lexeme = lexeme + c;
-				notfound = false;
-				token = "unknown";
 		} 
 		else if(isdigit(c)){
 			//int and real
-			lexeme = lexeme + c;
-				notfound = false;
-				token = "unknown";
 
 		}
 		else
@@ -80,17 +74,13 @@ string lexer(ifstream &file){
 				break;
 
 			case '$':
+				lexeme = lexeme + c;
 				c = file.get();
 				if(c=='$'){
-					lexeme = lexeme + "$$";
+					lexeme = lexeme + c;
 					c = file.get();
 					notfound = false;
 					token = "separator";
-				}else{
-					cout<<c<<"flag\n";
-					lexeme = '$';
-					notfound = false;
-					token = "unknown";
 				}
 				break;
 
@@ -150,13 +140,6 @@ string lexer(ifstream &file){
 				token = "separator";
 				break;
 			
-			case '=':
-				lexeme = lexeme + c;
-				c = file.get();
-				notfound = false;
-				token = "separator";
-				break;
-
 			default:
 				lexeme = lexeme + c;
 				notfound = false;
