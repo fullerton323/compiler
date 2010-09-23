@@ -2,14 +2,10 @@
 #include <fstream>
 #include <string>
 
-
-
-
 using namespace std;
 
 
 string lexer(ifstream &file);
-
 
 int main(void){
 
@@ -27,11 +23,10 @@ int main(void){
 
 	if (myinfile.is_open())
 	{
-
+		cout<<"Token\t\tLexeme"<<endl;
 		while(!myinfile.eof())
 		{
 			tokenANDLexeme = lexer(myinfile);
-			cout<<"Token\t\tLexeme"<<endl;
 			cout<<tokenANDLexeme<<endl;
 		}
 		
@@ -53,29 +48,39 @@ string lexer(ifstream &file){
 	bool notfound = true;
 
 
-	c = file.get();
-
 	do{
+		c = file.get();
+
 		if(isalpha(c)){
 			//identifier and keyword
 		} 
 		else if(isdigit(c)){
 			//int and real
+			if(token != "identifier"){
+				lexeme += c;
+				token = "digit";
+				string peek;
+				peek = file.peek();
+				if(peek == ".")
+				{
+					token = "real";
+				}
+			}
 
 		}
 		else
 		switch(c){
 			case '\n':
-				c = file.get();
 				break;
 
 			case ' ':
-				c = file.get();
+				notfound = false;
+				both = token + "\t\t" + lexeme;
+				return both;
 				break;
 
 			case '$':
 				lexeme = lexeme + c;
-				c = file.get();
 				if(c=='$'){
 					lexeme = lexeme + c;
 					c = file.get();
@@ -85,68 +90,73 @@ string lexer(ifstream &file){
 				break;
 
 			case '{':
-				lexeme = lexeme + c;
-				c = file.get();
+				lexeme += c;
 				notfound = false;
 				token = "separator";
 				break;
 
 			case '}':
-				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
-				token = "separator";
+				if (token == "digit"){
+					file.putback(c);
+				}
+				else{
+					token = "separator";
+					lexeme += c;
+				}
 				break;
-
 			case ';':
 				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
 				token = "separator";
 				break;
 
 			case '(':
 				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
 				token = "separator";
 				break;
 
 			case ')':
-				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
-				token = "separator";
+				if (token == "digit"){
+					file.putback(c);
+				}
+				else{
+					token = "separator";
+					lexeme += c;
+				}
 				break;
 
 			case ':':
 				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
 				token = "separator";
 				break;
 
 			case '[':
 				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
 				token = "separator";
 				break;
 
 			case ']':
-				lexeme = lexeme + c;
-				c = file.get();
 				notfound = false;
-				token = "separator";
+				if (token == "digit"){
+					file.putback(c);
+				}
+				else{
+					token = "separator";
+					lexeme += c;
+				}
 				break;
 			
 			default:
 				lexeme = lexeme + c;
 				notfound = false;
-				token = "unknown";
+				//token = "unknown";
 				
-		}
-			
+		}			
 
 	}while(notfound);
 
