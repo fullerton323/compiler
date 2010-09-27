@@ -194,7 +194,7 @@ string lexer(ifstream &file){
 				lexeme = lexeme + c;
 				if(file.peek()=='$'){
 					c = file.get();
-					lexeme = lexeme + c;
+					lexemer = lexeme + c;
 					notfound = false;
 					token = "separator";
 				}else{
