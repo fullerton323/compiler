@@ -90,8 +90,9 @@ string lexer(ifstream &file){
 
 			if(lexeme[size-1] == '_'){
 
-				lexeme.resize(size-1);
-				file.unget();
+				token = "unknown";
+				//lexeme.resize(size-1);
+				//file.unget();
 			}
 
 
@@ -145,6 +146,9 @@ string lexer(ifstream &file){
 		else
 		switch(c){
 			case '\n':
+				break;
+
+			case '\t':
 				break;
 
 			case ' ':
