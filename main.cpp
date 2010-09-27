@@ -50,7 +50,7 @@ int main(void){
 	myinfile.close();
 	myoutfile.close();
 
-
+	/*
 	///////////////////////////////////////////////////
 	////  Below is for testing
 	///////////////////////////////////////////////////
@@ -67,7 +67,7 @@ int main(void){
 	}while(!file.eof());
 	file.close();
 	///////////////////////////////////////////////////
-
+	*/
 
 
 	return 0;
@@ -84,13 +84,18 @@ string lexer(ifstream &file){
 	do{
 		c = file.get();
 
+		///////////////////////////////////////////////////////////////////
+		/// Identifier DFSM
+		///////////////////////////////////////////////////////////////////
 		if(isalpha(c)){
-			//identifier and keyword
-
+		
+		
+			/* state 2*/
 			lexeme += c;
 			token = "identifier";
 			notfound = false;
-
+				
+					/* state 3*/			/* state 4*/			/* state 5*/
 			while(isalpha(file.peek()) || isdigit(file.peek()) || file.peek()=='_'){
 				
 				c = file.get();
@@ -102,11 +107,16 @@ string lexer(ifstream &file){
 			if(lexeme[size-1] == '_'){
 
 				token = "unknown";
-				//lexeme.resize(size-1);
-				//file.unget();
+
 			}
+			///////////////////////////////////////////////////////////////////
 
 
+			
+
+			///////////////////////////////////////////////////////////////////
+			// Keyword
+			///////////////////////////////////////////////////////////////////
 			if(lexeme=="function")
 				token = "keyword";
 			else if(lexeme=="int")
@@ -135,13 +145,19 @@ string lexer(ifstream &file){
 				token = "keyword";
 
 		} 
-		else if(isdigit(c)){
-			//integer and real
 
+		///////////////////////////////////////////////////////////////////
+		// Interger aand Real DFSM
+		///////////////////////////////////////////////////////////////////
+		/*For real and integer we combined both DFSM into one. Which either recieves a digit or a '.' */
+		else if(isdigit(c)){
+		
+				
 			    lexeme += c;
 				token = "integer";
 				notfound = false;
 
+				
 				while(isdigit(file.peek()) || file.peek()=='.'){
 					
 					c = file.get();
@@ -151,9 +167,12 @@ string lexer(ifstream &file){
 						token = "real";
 
 				}
-
+		///////////////////////////////////////////////////////////////////
 
 		}
+		///////////////////////////////////////////////////////////////////
+		// Operator, Separator and Unkown
+		///////////////////////////////////////////////////////////////////
 		else
 		switch(c){
 			case '\n':
