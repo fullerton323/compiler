@@ -49,6 +49,7 @@ int main(void){
 
 	myinfile.close();
 	myoutfile.close();
+	cout<<"Complete"<<endl;
 
 	/*
 	///////////////////////////////////////////////////
@@ -175,6 +176,11 @@ string lexer(ifstream &file){
 		///////////////////////////////////////////////////////////////////
 		else
 		switch(c){
+			case 'ÿ':
+				lexeme = lexeme + c;
+				notfound = false;
+				token = "EndofFile";
+
 			case '\n':
 				break;
 
