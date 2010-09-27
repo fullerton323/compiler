@@ -1,3 +1,14 @@
+/*
+ * Authors: Bryan Perez & Charles Wang
+ * CPSC 323 - Fall 2010 (11:30-12:45)
+ * Assignment # 1 - Lexer
+
+ Description: The following program is the lexer or parser of the compiler. 
+ Input: A text file defined by the user
+ Output: Tokens and Lexemes are printed out to a file defined by the user
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
