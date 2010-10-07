@@ -7,7 +7,7 @@
  Input: A text file defined by the user
  Output: Tokens and Lexemes are printed out to a file defined by the user
 
-*/
+**/
 
 #include <iostream>
 #include <fstream>
