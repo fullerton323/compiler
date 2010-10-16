@@ -16,11 +16,11 @@ bool syntaxparser::StatementList(){
 
 	if(Statement() && StatementList()){
 
-		cout<<"<Statement>"<<endl;
+		cout<<"<Statement List> ::= <Statement>"<<endl;
 		bStatementList = true;
 	}
 	else if(Statement()){
-		cout<<"<Statement> <Statement List>"<<endl;
+		cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
 		bStatementList = true;
 	}
 
