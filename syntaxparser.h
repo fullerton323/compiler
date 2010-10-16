@@ -15,7 +15,11 @@ public:
 	bool OptDeclarationList();
 	bool StatementList();
 	bool FunctionDefinitions();
+	bool DeclarationList();
+	bool Declaration();
+	bool Statement();
 	bool Function();
+	
 
 private:
 	
