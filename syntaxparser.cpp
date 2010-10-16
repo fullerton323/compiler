@@ -46,3 +46,16 @@ void syntaxparser::Rat10F(){
 
 }
 
+bool syntaxparser::DeclarationList(){
+	Declaration();
+	Declaration();
+	DeclarationList();
+}
+
+bool syntaxparser::Declaration(){
+
+}
+
+bool syntaxparser::Statement(){
+
+}

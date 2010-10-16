@@ -13,7 +13,10 @@ public:
 	void Rat10F();
 	void OptFunctionDefinitions();
 	void OptDeclarationList();
-	void StatementList();
+	bool StatementList();
+	bool DeclarationList();
+	bool Declaration();
+	bool Statement();
 
 private:
 	
