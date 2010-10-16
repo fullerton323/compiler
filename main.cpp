@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include "syntaxparser.h"
 
 using namespace std;
 
@@ -49,30 +50,26 @@ int main(void){
 
 	myinfile.close();
 	myoutfile.close();
-	cout<<"Complete"<<endl;
+	
+	/****************************************************************/
 
-	/*
-	///////////////////////////////////////////////////
-	////  Below is for testing
-	///////////////////////////////////////////////////
-	ifstream file(outfile);
-	string token, lexeme;
+	syntaxparser parser(outfile);
 
-	cout<<setw(10)<<"TOKEN\t\t"<<"LEXEME"<<endl;
-	cout<<"-----------------------------------"<<endl;
-	do{
+	parser.Rat10F();
 
-		file>>token>>lexeme;
-		cout<<left<<setw(15)<<token<<setw(30)<<lexeme<<endl;
 
-	}while(!file.eof());
-	file.close();
-	///////////////////////////////////////////////////
-	*/
 
 
 	return 0;
 }
+
+
+
+
+
+
+
+
 
 
 string lexer(ifstream &file){
@@ -194,7 +191,7 @@ string lexer(ifstream &file){
 				lexeme = lexeme + c;
 				if(file.peek()=='$'){
 					c = file.get();
-					lexemer = lexeme + c;
+					lexeme = lexeme + c;
 					notfound = false;
 					token = "separator";
 				}else{
