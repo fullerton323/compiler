@@ -7,7 +7,26 @@ syntaxparser::syntaxparser(string lexfilename){
 		
 }
 
-bool FunctionDefinitions(){
+
+bool syntaxparser::Function(){
+	
+	bool bFunction = false;
+
+	file >> token >> lexeme;
+	if( lexeme == "function");
+
+
+}
+
+bool syntaxparser::FunctionDefinitions(){
+	bool bFunctionDefinitions = false;
+
+	if(Function() && FunctionDefinitions()){
+		bFunctionDefinitions = true;
+		cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
+	}else if(Function()){
+		bFunctionDefinitions = true;
+		cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
 
 }
 
