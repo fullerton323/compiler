@@ -12,29 +12,51 @@ bool FunctionDefinitions(){
 }
 
 bool syntaxparser::StatementList(){
-	
-	if(Statement())
+	bool bStatementList = false;
+
+	if(Statement() && StatementList()){
+
 		cout<<"<Statement>"<<endl;
-	else if(Statement() && StatementList()){
-		cout<<"<Statement> <Statement List>"<<endl;
+		bStatementList = true;
 	}
+	else if(Statement()){
+		cout<<"<Statement> <Statement List>"<<endl;
+		bStatementList = true;
+	}
+
+	return bStatementList;
 }
 
 
 bool syntaxparser::OptDeclarationList(){
 	
-	if(DeclarationList())
-		cout<<"<DeclarationList>"<<endl;
-	else 
-		cout<<"<Empty>"<<endl;
+	bool OptDeclarationList=false;
+
+	if(DeclarationList()){
+
+		cout<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
+		OptDeclarationList = true;
+	}
+	else {
+		cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
+		OptDeclarationList = true;
+	}
+
+	return OptDeclarationList;
 }
 
 bool syntaxparser::OptFunctionDefinitions(){
 
-	if(FunctionDefinitions())
-		cout<<"<FunctionDefinitions>"<<endl;
-	else 
-		cout<<"<Empty>"<<endl;
+	bool OptFunctionDefinitions =false;
+
+	if(FunctionDefinitions()){
+		cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
+		OptFunctionDefinitions = true;
+	}
+	else {
+		cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
+		OptFunctionDefinitions= true;
+	}
 }
 
 void syntaxparser::Rat10F(){
