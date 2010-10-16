@@ -19,6 +19,10 @@ public:
 	bool Declaration();
 	bool Statement();
 	bool Function();
+	bool OptParameterList();
+	bool ParameterList();
+	bool Parameter();
+	bool body();
 	
 
 private:

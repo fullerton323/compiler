@@ -8,40 +8,162 @@ syntaxparser::syntaxparser(string lexfilename){
 }
 
 
+
+
+bool syntaxparser::body(){
+	bool body = false;
+
+	if(lexeme == "{"){
+		file >> token >> lexeme;
+
+		if(StatementList()){
+			
+			if(lexeme == "}"){
+				file >> token >> lexeme;
+
+				body = true;
+				cout<<"<Body> ::= { <Statement List> }"<<endl;
+			}
+		}
+
+	}
+
+	return body;
+
+}
+
+bool syntaxparser::Parameter(){
+	
+	bool Parameter = false;
+
+	if(IDs()){
+
+		if(lexeme ==":"){
+
+			if(Qualifier()){
+				Parameter = true;
+				cout<<"<Parameter> ::= <IDS> : <Qulifier>"<<endl;
+
+			}
+		}
+	}
+
+	return Parameter;
+}
+
+bool syntaxparser::ParameterList(){
+
+	bool bParameterList= false;
+
+	if(Parameter()){
+
+		if(lexeme ==","){
+			file >> token >> lexeme;
+
+			if(ParameterList()){
+				bParameterList= true;
+				cout<<"<Parameter List> ::= <Parameter> , <Parameter List>"<<endl;
+
+			}
+			bParameterList= true;
+			cout<<"<Parameter List> ::= <Parameter>"<<endl;
+		}
+	}
+
+	return bParameterList;
+}
+
+
+
+bool syntaxparser::OptParameterList(){
+	bool OptParameterList = false;
+
+	if(ParameterList()){
+		cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
+		OptParameterList = true;
+	}else{
+		cout<<"<Opt Parameter List> ::= <empty>"<<endl;
+	}
+	
+
+	return OptParameterList;
+}
+
 bool syntaxparser::Function(){
 	
 	bool bFunction = false;
 
-	file >> token >> lexeme;
-	if( lexeme == "function");
+	
+	if( lexeme == "function"){
+		file >> token >> lexeme;
 
+		if(token == "identifier"){
+			file >> token >> lexeme;
+
+			if(lexeme == "["){
+				file >> token >> lexeme;
+
+				if(OptParameterList()){
+
+					if(lexeme == "]"){
+						file >> token >> lexeme;
+
+						if(OptDeclarationList()){
+
+							if(Body()){
+
+								bFunction = true;
+								cout<<"<Function> ::= function <identifier> [ <Opt Parameter List> ] <Opt Declaration List> <Body>"<<endl;
+
+							}
+						}
+					}
+				}
+
+			}else{
+				cout<<"Missing '[' separator"<<endl;
+			}
+
+		}else{
+				cout<<"Not an identifier"<<endl;
+			}
+
+	} else {
+		cout<<"No keyword 'function'"<<endl;
+	 }
+
+	return bFunction;
 
 }
 
 bool syntaxparser::FunctionDefinitions(){
 	bool bFunctionDefinitions = false;
 
-	if(Function() && FunctionDefinitions()){
+	if(Function()){
+		if (FunctionDefinitions()){
+			bFunctionDefinitions = true;
+			cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
+		}
+		
 		bFunctionDefinitions = true;
-		cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
-	}else if(Function()){
-		bFunctionDefinitions = true;
-		cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
-
+		cout << "<Function Definitions> ::= <Function>" << endl;
+	}	
+	return bFunctionDefinitions;
 }
 
 bool syntaxparser::StatementList(){
 	bool bStatementList = false;
 
-	if(Statement() && StatementList()){
-
+	if(Statement()){
+		if (StatementList()){
+			bStatementList = true;
+			cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
+		}
+		
+		bStatementList = true;
 		cout<<"<Statement List> ::= <Statement>"<<endl;
-		bStatementList = true;
 	}
-	else if(Statement()){
-		cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
-		bStatementList = true;
-	}
+
 
 	return bStatementList;
 }
@@ -76,6 +198,8 @@ bool syntaxparser::OptFunctionDefinitions(){
 		cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
 		OptFunctionDefinitions= true;
 	}
+
+	return OptFunctionDefinitions;
 }
 
 void syntaxparser::Rat10F(){
