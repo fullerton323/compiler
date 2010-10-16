@@ -91,22 +91,26 @@ void syntaxparser::Rat10F(){
 
 bool syntaxparser::DeclarationList(){
 	bool bDeclarationList = false;
-	if (Declaration() && DeclarationList()){
-		bDeclarationList = true;
-		cout << "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
-	}
-	else if (Declaration()){
-		bDeclarationList = true;
-		cout << "<DeclarationList> ::= <Declaration>" << endl;
+	if (Declaration()){
+			if(lexeme == ";"){
+				file >> token >> lexeme;
+				if(DeclarationList()){
+					bDeclarationList = true;
+					cout << "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
+				}
+				
+				bDeclarationList = true;
+				cout << "<DeclarationList> ::= <Declaration>" << endl;
+			}		
 	}
 	else
 		cout << "Error: Declaration List" << endl;
-	return DeclarationList;
+	return bDeclarationList;
 }
 
 bool syntaxparser::Declaration(){
 	bool bDeclaration = false;
-	if (Qualifer() && IDs()){
+	if (Qualifier() && IDs()){
 		bDeclaration = true;
 		cout << "<Declaration> ::= <Qualifier> <IDs>" << endl;
 	}
@@ -148,4 +152,111 @@ bool syntaxparser::Statement(){
 	else
 		cout << "Error : <Statement>" << endl;
 	return bStatement;
+}
+
+bool syntaxparser::Qualifier(){
+	bool bQualifier = false;
+	if (token == "int" || token =="boolean" || token == "real")
+		bQualifier = true;
+	file >> token >> lexeme;
+	return bQualifier;
+}
+
+bool syntaxparser::IDs(){
+	bool bIDs = false;
+	if(token == "identifier"){
+		file >> token >> lexeme;
+		if (lexeme == ","){
+			file >> token >> lexeme;
+			if(IDs()){
+				bIDs = true;
+				cout << "<IDs> ::= <Identifier>, <IDs>" << endl;
+			}
+		}
+		bIDs = true;
+		cout << "<IDs> ::= <Identifier>" << endl;
+	}
+	else
+		cout << "ERROR: <IDs>" << endl;
+	return bIDs;
+}
+
+bool syntaxparser::Compound(){
+	bool bCompound = false;
+	if (lexeme == "{"){
+		file >> token >> lexeme;
+		if(StatementList()){
+			if(lexeme == "}"){
+				bCompound = true;
+				cout << "<compound> ::= { <Statement List> }" << endl;
+				file >> token >> lexeme;
+			}
+		}
+	}
+	return bCompound; 
+}
+
+bool syntaxparser::Assign(){
+	bool bAssign = false;
+	if (token == "identifier"){
+		file >> token >> lexeme;
+		if (lexeme == ":="){
+			file >> token >> lexeme;
+			if (Expression()){
+				if(lexeme == ";"){
+					bAssign = true;
+					cout << "<Assign> ::= <Identifier> := <Expression>;" << endl;
+				}
+			}
+		}
+	}
+	else
+		cout << "ERROR: <Assign>" << endl;
+	return bAssign;
+}
+
+bool syntaxparser::If(){
+	bool bIf = false;
+	if(token == "if"){
+		file >> token >> lexeme;
+		if (lexeme == "("){
+			file >> token >> lexeme;
+			if (Condition()){
+				if (lexeme == ")"){
+					if (Statement()){
+						if (token == "endif"){
+							file >> token >> lexeme;
+							bIf = true;
+							cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+		cout << "Error: <If>" << endl;
+	return bIf;
+}
+
+bool syntaxparser::Return(){
+	bool bReturn = false;
+	if (token == "return"){
+		file >> token >> lexeme;
+		if (lexeme == ";"){
+			file >> token >> lexeme;
+			bReturn = true;
+			cout << "<Return> ::= return;" << endl;
+		}
+		else if (Expression()){
+			if (lexeme == ";"){
+				file >> token >> lexeme;
+				bReturn = true;
+				cout << "<Return> ::= return <Expression>;" << endl;
+			}
+		}
+	}
+	else
+		cout << "ERROR: <Return>" << endl;
+	return bReturn;
 }

@@ -18,6 +18,15 @@ public:
 	bool DeclarationList();
 	bool Declaration();
 	bool Statement();
+	bool Qualifier();
+	bool IDs();
+	bool Compound();
+	bool Assign();
+	bool If();
+	bool Return();
+	bool Write();
+	bool Read();
+	bool While();
 
 private:
 	
