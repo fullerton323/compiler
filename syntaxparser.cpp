@@ -7,17 +7,34 @@ syntaxparser::syntaxparser(string lexfilename){
 		
 }
 
-void syntaxparser::StatementList(){
+bool FunctionDefinitions(){
 
 }
 
-
-void syntaxparser::OptDeclarationList(){
+bool syntaxparser::StatementList(){
 	
+	if(Statement())
+		cout<<"<Statement>"<<endl;
+	else if(Statement() && StatementList()){
+		cout<<"<Statement> <Statement List>"<<endl;
+	}
 }
 
-void syntaxparser::OptFunctionDefinitions(){
 
+bool syntaxparser::OptDeclarationList(){
+	
+	if(DeclarationList())
+		cout<<"<DeclarationList>"<<endl;
+	else 
+		cout<<"<Empty>"<<endl;
+}
+
+bool syntaxparser::OptFunctionDefinitions(){
+
+	if(FunctionDefinitions())
+		cout<<"<FunctionDefinitions>"<<endl;
+	else 
+		cout<<"<Empty>"<<endl;
 }
 
 void syntaxparser::Rat10F(){
@@ -27,18 +44,22 @@ void syntaxparser::Rat10F(){
 
 	
 	if( lexeme == "$$"){
+
 		OptFunctionDefinitions();
 		file >> token >> lexeme;
+
 		if( lexeme == "$$"){
+
 			OptDeclarationList();
 			StatementList();
 			file >> token >> lexeme;
+			
 			if( lexeme == "$$");
 			else if( lexeme != "$$")
-			cout<<"Errror no $$"<<endl;
+			cout<<"Errror no Finishing $$"<<endl;
 		}
 		else if( lexeme != "$$")
-			cout<<"Errror no $$"<<endl;
+			cout<<"Errror no $$ after Function definitions"<<endl;
 
 	}
 	else if( lexeme != "$$")
