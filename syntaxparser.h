@@ -18,6 +18,11 @@ public:
 	bool DeclarationList();
 	bool Declaration();
 	bool Statement();
+	bool Function();
+	bool OptParameterList();
+	bool ParameterList();
+	bool Parameter();
+	bool body();
 	bool Qualifier();
 	bool IDs();
 	bool Compound();
