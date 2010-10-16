@@ -11,9 +11,10 @@ public:
 	syntaxparser(string lexfilename);
 
 	void Rat10F();
-	void OptFunctionDefinitions();
-	void OptDeclarationList();
-	void StatementList();
+	bool OptFunctionDefinitions();
+	bool OptDeclarationList();
+	bool StatementList();
+	bool FunctionDefinitions();
 
 private:
 	
