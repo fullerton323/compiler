@@ -10,7 +10,7 @@ syntaxparser::syntaxparser(string lexfilename){
 
 
 
-bool syntaxparser::body(){
+bool syntaxparser::Body(){
 	bool body = false;
 
 	if(lexeme == "{"){
@@ -402,4 +402,141 @@ bool syntaxparser::Return(){
 	else
 		cout << "ERROR: <Return>" << endl;
 	return bReturn;
+}
+
+bool syntaxparser::Write(){
+	bool bWrite = false;
+	if (token == "write"){
+		file >> token >> lexeme;
+		if (lexeme == "("){
+			file >> token >> lexeme;
+			if (Expression()){
+				if (lexeme == ")"){
+					file >> token >> lexeme;
+					if (lexeme == ";"){
+						file >> token >> lexeme;
+						bWrite = true;
+						cout << "<Write> ::= write ( <Expression> );" << endl;
+					}
+				}
+			}
+		}
+	}
+	else
+		cout << "ERROR: <WRITE>" << endl;
+	return bWrite;
+}
+
+bool syntaxparser::Read(){
+	bool bRead = false;
+	if (token == "read"){
+		file >> token >> lexeme;
+		if (lexeme == "("){
+			file >> token >> lexeme;
+			if (IDs()){
+				if (lexeme == ")"){
+					file >> token >> lexeme;
+					if (lexeme == ";"){
+						file >> token >> lexeme;
+						bRead = true;
+						cout << "<Read> ::= read ( <IDs> );" << endl;
+					}
+				}
+			}
+		}
+	}
+	else
+		cout << "ERROR: <READ>;" << endl;
+	return bRead;
+}
+
+bool syntaxparser::While(){
+	bool bWhile = false;
+	if (token == "while"){
+		file >> token >> lexeme;
+		if (lexeme == "("){
+			file >> token >> lexeme;
+			if (Condition()){
+				if (lexeme == ")"){
+					file >> token >> lexeme;
+					if (Statement()){
+						bWhile = true;
+						cout << "<While> ::=( <Condition> ) <Statement>" << endl;
+					}
+				}
+			}
+		}
+	}
+	else
+		cout << "ERROR: <While>" << endl;
+	return bWhile;
+}
+
+bool syntaxparser::Expression(){
+	bool bExpression = false;
+	if (Term() && ExpressionPrime()){
+		bExpression = true;
+		cout << "<Expression> ::= <Term><ExpressionPrime>" << endl;
+	}
+	else
+		cout << "ERROR: <Expression>" << endl;
+	return bExpression;
+}
+
+bool syntaxparser::ExpressionPrime(){
+	bool bExpressionPrime = false;
+	if (lexeme == "+"){
+		file >> token >> lexeme;
+		if (Term() && ExpressionPrime()){
+			bExpressionPrime = true;
+			cout << "<ExpressionPrime> ::= +<Term><ExpressionPrime>" << endl;
+		}
+	}
+	else if (lexeme == "-"){
+		file >> token >> lexeme;
+		if (Term() && ExpressionPrime()){
+			bExpressionPrime = true;
+			cout << "<ExpressionPrime> ::= -<Term><ExpressionPrime>" << endl;
+		}
+	}
+	else
+		cout << "<ExpressionPrime> ::= e" << endl;
+	return bExpressionPrime;
+}
+
+bool syntaxparser::Term(){
+	bool bTerm = false;
+	if (Factor() && TermPrime()){
+		bTerm = true;
+		cout << "<Term> ::= <Factor><TermPrime>" << endl;
+	}
+	else
+		cout << "ERROR: <Term>" << endl;
+	return bTerm;
+}
+
+bool syntaxparser::TermPrime(){
+	bool bTermPrime = false;
+	if (lexeme == "*"){
+		file >> token >> lexeme;
+		if (Factor() && TermPrime()){
+			bTermPrime = true;
+			cout << "<TermPrime> ::= *<Factor><TermPrime>" << endl;
+		}
+	}
+	else if (lexeme == "/"){
+		file >> token >> lexeme;
+		if (Factor() && TermPrime()){
+			bTermPrime = true;
+			cout << "<TermPrime> ::= /<Term><FactorPrime>" << endl;
+		}
+	}
+	else
+		cout << "<TermPrime> ::= e" << endl;
+	return bTermPrime;
+}
+
+bool syntaxparser::Empty(){
+	bool bEmpty = True;
+	cout << "<Empty> ::= e" << endl;
 }
