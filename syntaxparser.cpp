@@ -640,6 +640,6 @@ bool syntaxparser::TermPrime(){
 }
 
 bool syntaxparser::Empty(){
-	bool bEmpty = True;
+	bool bEmpty = true;
 	cout << "<Empty> ::= e" << endl;
 }
