@@ -73,6 +73,7 @@ bool syntaxparser::Factor(){
 		Factor = true;
 		cout<<"<Factor> ::= <Primary>"<<endl;
 	}
+	return Factor;
 }
 
 bool syntaxparser::Relop(){
@@ -653,4 +654,5 @@ bool syntaxparser::TermPrime(){
 bool syntaxparser::Empty(){
 	bool bEmpty = true;
 	cout << "<Empty> ::= e" << endl;
+	return bEmpty;
 }
