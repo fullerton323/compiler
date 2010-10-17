@@ -32,6 +32,7 @@ public:
 	bool Write();
 	bool Read();
 	bool While();
+	bool Condition();
 	bool Relop();
 	bool Factor();
 	bool Primary();
