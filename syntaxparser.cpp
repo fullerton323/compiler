@@ -575,6 +575,17 @@ bool syntaxparser::While(){
 	return bWhile;
 }
 
+bool syntaxparser::Condition(){
+	bool bCondition = false;
+	if (Expression() && Relop() && Expression()){
+		bCondition = true;
+		cout << "<Condition> :== <Expression> <Relop> <Expression>" << endl;
+	}
+	else
+		cout << "ERROR: <Condition>" << endl;
+	return bCondition;
+}
+
 bool syntaxparser::Expression(){
 	bool bExpression = false;
 	if (Term() && ExpressionPrime()){
@@ -640,6 +651,6 @@ bool syntaxparser::TermPrime(){
 }
 
 bool syntaxparser::Empty(){
-	bool bEmpty = True;
+	bool bEmpty = true;
 	cout << "<Empty> ::= e" << endl;
 }
