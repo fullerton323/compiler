@@ -22,7 +22,7 @@ public:
 	bool OptParameterList();
 	bool ParameterList();
 	bool Parameter();
-	bool body();
+	bool Body();
 	bool Qualifier();
 	bool IDs();
 	bool Compound();
@@ -32,6 +32,9 @@ public:
 	bool Write();
 	bool Read();
 	bool While();
+	bool Relop();
+	bool Factor();
+	bool Primary();
 
 private:
 	

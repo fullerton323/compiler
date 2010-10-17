@@ -7,10 +7,105 @@ syntaxparser::syntaxparser(string lexfilename){
 		
 }
 
+bool syntaxparser::Primary(){
+	bool Primary = false, flag=true;
+
+	if(token == "identifier" ){
+		file >> token >> lexeme;
+
+		if(lexeme == "["){
+			file >> token >> lexeme;
+
+			if(IDs()){
+
+				if(lexeme == "]"){
+					Primary = true;
+					cout<<"<Primary> ::= <identifier> [ <IDs> ]"<<endl;
+					flag = false;
+
+				}
+			}
+
+		}
+
+		if( flag == true){
+			Primary = true;
+			cout<<"<Primary> ::= <identifier>"<<endl;
+		}
+
+	}else if(token == "integer"){
+		file >> token >> lexeme;
+		Primary = true;
+		cout<<"<Primary> ::= <integer>"<<endl;
+
+	}else if(token == "real"){
+		file >> token >> lexeme;
+		Primary = true;
+		cout<<"<Primary> ::= <real>"<<endl;
+	}else if(token == "true"){
+		file >> token >> lexeme;
+		Primary = true;
+		cout<<"<Primary> ::= <true>"<<endl;
+	}if(token == "false"){
+		file >> token >> lexeme;
+		Primary = true;
+		cout<<"<Primary> ::= <false>"<<endl;
+	}else
+		cout<<"Missing Primary"<<endl;
+
+		return Primary;
+
+}
+
+bool syntaxparser::Factor(){
+
+	bool Factor = false;
+
+	if(lexeme == "-"){
+		file >> token >> lexeme;
+
+		if(Primary()){
+			Factor = true;
+			cout<<"<Factor> ::= -<Primary>"<<endl;
+
+		}
+	}else if(Primary()){
+		Factor = true;
+		cout<<"<Factor> ::= <Primary>"<<endl;
+	}
+}
 
 
+bool syntaxparser::Relop(){
 
-bool syntaxparser::body(){
+	bool Relop = false;
+
+	if(lexeme == "="){
+		Relop = true;
+		cout<<"<Relop> ::= =" << endl;
+	}else if(lexeme =="/="){
+		Relop = true;
+		cout<<"<Relop> ::= /=" << endl;
+	}else if(lexeme ==">"){
+		Relop = true;
+		cout<<"<Relop> ::= >" << endl;
+	}else if(lexeme =="<"){
+		Relop = true;
+		cout<<"<Relop> ::= <" << endl;
+	}else if(lexeme =="=>"){
+		Relop = true;
+		cout<<"<Relop> ::= =>" << endl;
+	}else if(lexeme =="<="){
+		Relop = true;
+		cout<<"<Relop> ::= <=" << endl;
+	}else 
+		cout<<"Missing Relop"<<endl;
+
+	return Relop;
+}
+
+
+bool syntaxparser::Body(){
 	bool body = false;
 
 	if(lexeme == "{"){
@@ -23,9 +118,13 @@ bool syntaxparser::body(){
 
 				body = true;
 				cout<<"<Body> ::= { <Statement List> }"<<endl;
+			}else{
+				cout<<"Missing ']'"<<endl;
 			}
 		}
 
+	}else{
+		cout<<"Missing '{'"<<endl;
 	}
 
 	return body;
@@ -45,6 +144,8 @@ bool syntaxparser::Parameter(){
 				cout<<"<Parameter> ::= <IDS> : <Qulifier>"<<endl;
 
 			}
+		}else{
+			cout<<"Missing ':'"<<endl;
 		}
 	}
 
@@ -67,6 +168,8 @@ bool syntaxparser::ParameterList(){
 			}
 			bParameterList= true;
 			cout<<"<Parameter List> ::= <Parameter>"<<endl;
+		}else{
+			cout<<" missing ','"<<endl;
 		}
 	}
 
@@ -81,7 +184,7 @@ bool syntaxparser::OptParameterList(){
 	if(ParameterList()){
 		cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
 		OptParameterList = true;
-	}else{
+	}else if(Empty()){
 		cout<<"<Opt Parameter List> ::= <empty>"<<endl;
 	}
 	
@@ -178,7 +281,7 @@ bool syntaxparser::OptDeclarationList(){
 		cout<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
 		OptDeclarationList = true;
 	}
-	else {
+	else if(Empty()){
 		cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
 		OptDeclarationList = true;
 	}
@@ -194,7 +297,8 @@ bool syntaxparser::OptFunctionDefinitions(){
 		cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
 		OptFunctionDefinitions = true;
 	}
-	else {
+	else if(Empty()) {
+
 		cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
 		OptFunctionDefinitions= true;
 	}
