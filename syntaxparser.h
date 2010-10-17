@@ -32,6 +32,9 @@ public:
 	bool Write();
 	bool Read();
 	bool While();
+	bool Relop();
+	bool Factor();
+	bool Primary();
 	bool Expression();
 	bool ExpressionPrime();
 	bool Term();
