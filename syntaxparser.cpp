@@ -138,7 +138,7 @@ bool syntaxparser::Parameter(){
 	if(IDs()){
 
 		if(lexeme ==":"){
-
+			file >> token >> lexeme;
 			if(Qualifier()){
 				Parameter = true;
 				cout<<"<Parameter> ::= <IDS> : <Qulifier>"<<endl;
