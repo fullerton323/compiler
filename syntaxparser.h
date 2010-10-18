@@ -44,6 +44,8 @@ public:
 
 private:
 	
-	ifstream file;
+	
 	string lexeme, token;
+	string filename;
+	ifstream file;
 };

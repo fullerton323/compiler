@@ -2,8 +2,8 @@
 
 
 syntaxparser::syntaxparser(string lexfilename){
-		string filename = lexfilename;
-		ifstream file(filename);
+		filename = lexfilename;
+		file.open(filename);
 		
 }
 
@@ -313,17 +313,21 @@ void syntaxparser::Rat10F(){
 
 	
 	if( lexeme == "$$"){
-
-		OptFunctionDefinitions();
 		file >> token >> lexeme;
 
+
+		OptFunctionDefinitions();
+		
+
 		if( lexeme == "$$"){
+			file >> token >> lexeme;
 
 			OptDeclarationList();
 			StatementList();
-			file >> token >> lexeme;
 			
-			if( lexeme == "$$");
+			
+			if( lexeme == "$$")
+				file >> token >> lexeme;
 			else if( lexeme != "$$")
 			cout<<"Errror no Finishing $$"<<endl;
 		}
