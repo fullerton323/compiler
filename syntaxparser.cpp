@@ -34,7 +34,7 @@ bool syntaxparser::Primary(){
 
 	if(token == "identifier" ){
 		Lexer();
-		
+
 
 		if(lexeme == "["){
 			Lexer();
@@ -337,15 +337,15 @@ bool syntaxparser::OptFunctionDefinitions(){
 }
 
 void syntaxparser::Rat10F(){
-	
-	
-	
 	Lexer();
+
+
 	
 
 	
 	if( lexeme == "$$"){
 		Lexer();
+
 
 		OptFunctionDefinitions();
 		
@@ -353,10 +353,12 @@ void syntaxparser::Rat10F(){
 		if( lexeme == "$$"){
 			Lexer();
 
+
 			OptDeclarationList();
 			StatementList();
 			
 			
+
 			if( lexeme == "$$"){
 				Lexer();
 			}
