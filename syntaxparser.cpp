@@ -33,14 +33,16 @@ bool syntaxparser::Primary(){
 	bool Primary = false, flag=true;
 
 	if(token == "identifier" ){
-		file >> token >> lexeme;
+		Lexer();
+		
 
 		if(lexeme == "["){
-			file >> token >> lexeme;
+			Lexer();
 
 			if(IDs()){
 
 				if(lexeme == "]"){
+					Lexer();
 					Primary = true;
 					cout<<"<Primary> ::= <identifier> [ <IDs> ]"<<endl;
 					flag = false;
@@ -56,20 +58,20 @@ bool syntaxparser::Primary(){
 		}
 
 	}else if(token == "integer"){
-		file >> token >> lexeme;
+		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <integer>"<<endl;
 
 	}else if(token == "real"){
-		file >> token >> lexeme;
+		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <real>"<<endl;
 	}else if(token == "true"){
-		file >> token >> lexeme;
+		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <true>"<<endl;
 	}if(token == "false"){
-		file >> token >> lexeme;
+		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <false>"<<endl;
 	}else
@@ -84,7 +86,7 @@ bool syntaxparser::Factor(){
 	bool Factor = false;
 
 	if(lexeme == "-"){
-		file >> token >> lexeme;
+		Lexer();
 
 		if(Primary()){
 			Factor = true;
@@ -103,21 +105,27 @@ bool syntaxparser::Relop(){
 	bool Relop = false;
 
 	if(lexeme == "="){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= =" << endl;
 	}else if(lexeme =="/="){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= /=" << endl;
 	}else if(lexeme ==">"){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= >" << endl;
 	}else if(lexeme =="<"){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= <" << endl;
 	}else if(lexeme =="=>"){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= =>" << endl;
 	}else if(lexeme =="<="){
+		Lexer();
 		Relop = true;
 		cout<<"<Relop> ::= <=" << endl;
 	}else 
@@ -131,12 +139,12 @@ bool syntaxparser::Body(){
 	bool body = false;
 
 	if(lexeme == "{"){
-		file >> token >> lexeme;
+		Lexer();
 
 		if(StatementList()){
 			
 			if(lexeme == "}"){
-				file >> token >> lexeme;
+				Lexer();
 
 				body = true;
 				cout<<"<Body> ::= { <Statement List> }"<<endl;
@@ -160,7 +168,7 @@ bool syntaxparser::Parameter(){
 	if(IDs()){
 
 		if(lexeme ==":"){
-			file >> token >> lexeme;
+			Lexer();
 			if(Qualifier()){
 				Parameter = true;
 				cout<<"<Parameter> ::= <IDS> : <Qulifier>"<<endl;
@@ -181,7 +189,7 @@ bool syntaxparser::ParameterList(){
 	if(Parameter()){
 
 		if(lexeme ==","){
-			file >> token >> lexeme;
+			Lexer();
 
 			if(ParameterList()){
 				bParameterList= true;
@@ -220,18 +228,18 @@ bool syntaxparser::Function(){
 
 	
 	if( lexeme == "function"){
-		file >> token >> lexeme;
+		Lexer();
 
 		if(token == "identifier"){
-			file >> token >> lexeme;
+			Lexer();
 
 			if(lexeme == "["){
-				file >> token >> lexeme;
+				Lexer();
 
 				if(OptParameterList()){
 
 					if(lexeme == "]"){
-						file >> token >> lexeme;
+						Lexer();
 
 						if(OptDeclarationList()){
 
@@ -331,28 +339,27 @@ bool syntaxparser::OptFunctionDefinitions(){
 void syntaxparser::Rat10F(){
 	
 	
-	file >> token >> lexeme;
-
+	
+	Lexer();
 	
 
 	
 	if( lexeme == "$$"){
-		file >> token >> lexeme;
-
+		Lexer();
 
 		OptFunctionDefinitions();
 		
 
 		if( lexeme == "$$"){
-			file >> token >> lexeme;
-			
+			Lexer();
 
 			OptDeclarationList();
 			StatementList();
 			
 			
-			if( lexeme == "$$")
-				file >> token >> lexeme;
+			if( lexeme == "$$"){
+				Lexer();
+			}
 			else if( lexeme != "$$")
 			cout<<"Errror no Finishing $$"<<endl;
 		}
@@ -369,7 +376,7 @@ bool syntaxparser::DeclarationList(){
 	bool bDeclarationList = false;
 	if (Declaration()){
 			if(lexeme == ";"){
-				file >> token >> lexeme;
+				Lexer();
 				if(DeclarationList()){
 					bDeclarationList = true;
 					cout << "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
@@ -434,16 +441,16 @@ bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
 	if (token == "int" || token =="boolean" || token == "real")
 		bQualifier = true;
-	file >> token >> lexeme;
+	Lexer();
 	return bQualifier;
 }
 
 bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == ","){
-			file >> token >> lexeme;
+			Lexer();
 			if(IDs()){
 				bIDs = true;
 				cout << "<IDs> ::= <Identifier>, <IDs>" << endl;
@@ -460,12 +467,12 @@ bool syntaxparser::IDs(){
 bool syntaxparser::Compound(){
 	bool bCompound = false;
 	if (lexeme == "{"){
-		file >> token >> lexeme;
+		Lexer();
 		if(StatementList()){
 			if(lexeme == "}"){
 				bCompound = true;
 				cout << "<compound> ::= { <Statement List> }" << endl;
-				file >> token >> lexeme;
+				Lexer();
 			}
 		}
 	}
@@ -475,11 +482,12 @@ bool syntaxparser::Compound(){
 bool syntaxparser::Assign(){
 	bool bAssign = false;
 	if (token == "identifier"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == ":="){
-			file >> token >> lexeme;
+			Lexer();
 			if (Expression()){
 				if(lexeme == ";"){
+					Lexer();
 					bAssign = true;
 					cout << "<Assign> ::= <Identifier> := <Expression>;" << endl;
 				}
@@ -494,14 +502,15 @@ bool syntaxparser::Assign(){
 bool syntaxparser::If(){
 	bool bIf = false;
 	if(token == "if"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == "("){
-			file >> token >> lexeme;
+			Lexer();
 			if (Condition()){
 				if (lexeme == ")"){
+					Lexer();
 					if (Statement()){
 						if (token == "endif"){
-							file >> token >> lexeme;
+							Lexer();
 							bIf = true;
 							cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
 						}
@@ -518,15 +527,15 @@ bool syntaxparser::If(){
 bool syntaxparser::Return(){
 	bool bReturn = false;
 	if (token == "return"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == ";"){
-			file >> token >> lexeme;
+			Lexer();
 			bReturn = true;
 			cout << "<Return> ::= return;" << endl;
 		}
 		else if (Expression()){
 			if (lexeme == ";"){
-				file >> token >> lexeme;
+				Lexer();
 				bReturn = true;
 				cout << "<Return> ::= return <Expression>;" << endl;
 			}
@@ -540,14 +549,14 @@ bool syntaxparser::Return(){
 bool syntaxparser::Write(){
 	bool bWrite = false;
 	if (token == "write"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == "("){
-			file >> token >> lexeme;
+			Lexer();
 			if (Expression()){
 				if (lexeme == ")"){
-					file >> token >> lexeme;
+					Lexer();
 					if (lexeme == ";"){
-						file >> token >> lexeme;
+						Lexer();
 						bWrite = true;
 						cout << "<Write> ::= write ( <Expression> );" << endl;
 					}
@@ -563,14 +572,14 @@ bool syntaxparser::Write(){
 bool syntaxparser::Read(){
 	bool bRead = false;
 	if (token == "read"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == "("){
-			file >> token >> lexeme;
+			Lexer();
 			if (IDs()){
 				if (lexeme == ")"){
-					file >> token >> lexeme;
+					Lexer();
 					if (lexeme == ";"){
-						file >> token >> lexeme;
+						Lexer();
 						bRead = true;
 						cout << "<Read> ::= read ( <IDs> );" << endl;
 					}
@@ -586,12 +595,12 @@ bool syntaxparser::Read(){
 bool syntaxparser::While(){
 	bool bWhile = false;
 	if (token == "while"){
-		file >> token >> lexeme;
+		Lexer();
 		if (lexeme == "("){
-			file >> token >> lexeme;
+			Lexer();
 			if (Condition()){
 				if (lexeme == ")"){
-					file >> token >> lexeme;
+					Lexer();
 					if (Statement()){
 						bWhile = true;
 						cout << "<While> ::=( <Condition> ) <Statement>" << endl;
@@ -630,14 +639,14 @@ bool syntaxparser::Expression(){
 bool syntaxparser::ExpressionPrime(){
 	bool bExpressionPrime = false;
 	if (lexeme == "+"){
-		file >> token >> lexeme;
+		Lexer();
 		if (Term() && ExpressionPrime()){
 			bExpressionPrime = true;
 			cout << "<ExpressionPrime> ::= +<Term><ExpressionPrime>" << endl;
 		}
 	}
 	else if (lexeme == "-"){
-		file >> token >> lexeme;
+		Lexer();
 		if (Term() && ExpressionPrime()){
 			bExpressionPrime = true;
 			cout << "<ExpressionPrime> ::= -<Term><ExpressionPrime>" << endl;
@@ -662,14 +671,14 @@ bool syntaxparser::Term(){
 bool syntaxparser::TermPrime(){
 	bool bTermPrime = false;
 	if (lexeme == "*"){
-		file >> token >> lexeme;
+		Lexer();
 		if (Factor() && TermPrime()){
 			bTermPrime = true;
 			cout << "<TermPrime> ::= *<Factor><TermPrime>" << endl;
 		}
 	}
 	else if (lexeme == "/"){
-		file >> token >> lexeme;
+		Lexer();
 		if (Factor() && TermPrime()){
 			bTermPrime = true;
 			cout << "<TermPrime> ::= /<Term><FactorPrime>" << endl;
