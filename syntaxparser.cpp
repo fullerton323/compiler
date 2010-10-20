@@ -23,7 +23,8 @@ bool syntaxparser::Lexer(){
 			lineNumber++;
 			file >> token >> lexeme;
 		}
-		
+
+
 		cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
 	}
 	return flag;

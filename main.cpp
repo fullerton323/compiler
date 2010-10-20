@@ -182,6 +182,7 @@ string lexer(ifstream &file){
 				lexeme = lexeme + c;
 				notfound = false;
 				token = "EndofLine";
+				lexeme = "EndofLine";
 				break;
 
 			case '\t':
