@@ -23,7 +23,6 @@ bool syntaxparser::Lexer(){
 			lineNumber++;
 			file >> token >> lexeme;
 		}
-		if( token != "separator")
 		cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
 	}
 	return flag;
