@@ -4,7 +4,29 @@
 syntaxparser::syntaxparser(string lexfilename){
 		filename = lexfilename;
 		file.open(filename);
+		lineNumber = 0;
 		
+}
+
+
+bool syntaxparser::Lexer(){
+
+	bool flag = true;
+
+	file >> token >> lexeme;
+
+	if(token == "EndofFile")
+		flag=false;
+	else{
+
+		if(token == "EndofLine"){
+			lineNumber++;
+			file >> token >> lexeme;
+		}
+		if( token != "separator")
+		cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
+	}
+	return flag;
 }
 
 bool syntaxparser::Primary(){
@@ -308,8 +330,10 @@ bool syntaxparser::OptFunctionDefinitions(){
 
 void syntaxparser::Rat10F(){
 	
+	
 	file >> token >> lexeme;
-	cout<<"$$ <Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$"<<endl;
+
+	
 
 	
 	if( lexeme == "$$"){
@@ -321,6 +345,7 @@ void syntaxparser::Rat10F(){
 
 		if( lexeme == "$$"){
 			file >> token >> lexeme;
+			
 
 			OptDeclarationList();
 			StatementList();

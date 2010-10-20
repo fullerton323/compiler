@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -41,6 +42,7 @@ public:
 	bool Term();
 	bool TermPrime();
 	bool Empty();
+	bool Lexer();
 
 private:
 	
@@ -48,4 +50,5 @@ private:
 	string lexeme, token;
 	string filename;
 	ifstream file;
+	int lineNumber;
 };
