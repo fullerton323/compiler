@@ -15,18 +15,17 @@ bool syntaxparser::Lexer(){
 
 	file >> token >> lexeme;
 
-	if(token == "EndofFile")
-		flag=false;
-	else{
-
-		if(token == "EndofLine"){
+	
+		while(token == "EndofLine")
+		{
 			lineNumber++;
 			file >> token >> lexeme;
+			
 		}
 
 
-		cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
-	}
+	cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
+	
 	return flag;
 }
 
@@ -164,7 +163,7 @@ bool syntaxparser::OptParameterList(){
 
 bool syntaxparser::ParameterList(){
 
-	bool bParameterList= false;
+	bool bParameterList= false, flag=false;
 
 	if(Parameter()){
 
@@ -174,13 +173,15 @@ bool syntaxparser::ParameterList(){
 			if(ParameterList()){
 				bParameterList= true;
 				cout<<"<Parameter List> ::= <Parameter> , <Parameter List>"<<endl;
+				flag=true;
 
 			}
+
 			bParameterList= true;
+			if(flag == false)
 			cout<<"<Parameter List> ::= <Parameter>"<<endl;
-		}else{
-			cout<<" missing ','"<<endl;
 		}
+		bParameterList= true;
 	}
 
 	return bParameterList;
@@ -210,9 +211,13 @@ bool syntaxparser::Parameter(){
 
 bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
-	if (token == "int" || token =="boolean" || token == "real")
+	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
+	{
 		bQualifier = true;
-	Lexer();
+		Lexer();
+	}
+	
+
 	return bQualifier;
 }
 
@@ -275,8 +280,7 @@ bool syntaxparser::DeclarationList(){
 				cout << "<DeclarationList> ::= <Declaration>" << endl;
 			}		
 	}
-	else
-		cout << "Error: Declaration List" << endl;
+	
 	return bDeclarationList;
 }
 
@@ -286,8 +290,7 @@ bool syntaxparser::Declaration(){
 		bDeclaration = true;
 		cout << "<Declaration> ::= <Qualifier> <IDs>" << endl;
 	}
-	else
-		cout << "Error: Declaration" << endl;
+	
 	return bDeclaration;
 }
 
@@ -607,8 +610,7 @@ bool syntaxparser::Term(){
 		bTerm = true;
 		cout << "<Term> ::= <Factor><TermPrime>" << endl;
 	}
-	else
-		cout << "ERROR: <Term>" << endl;
+	
 	return bTerm;
 }
 
@@ -697,7 +699,7 @@ bool syntaxparser::Primary(){
 		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <true>"<<endl;
-	}if(token == "false"){
+	}else if(token == "false"){
 		Lexer();
 		Primary = true;
 		cout<<"<Primary> ::= <false>"<<endl;
