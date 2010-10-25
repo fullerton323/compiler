@@ -593,6 +593,7 @@ bool syntaxparser::ExpressionPrime(){
 		}
 	}
 	else
+		bExpressionPrime = true;
 		cout << "<ExpressionPrime> ::= e" << endl;
 	return bExpressionPrime;
 }
@@ -625,6 +626,7 @@ bool syntaxparser::TermPrime(){
 		}
 	}
 	else
+		bTermPrime = true;
 		cout << "<TermPrime> ::= e" << endl;
 	return bTermPrime;
 }
@@ -690,6 +692,7 @@ bool syntaxparser::Primary(){
 		if (Expression()){
 			if (lexeme == ")"){
 				Lexer();
+				Primary = true;
 				cout << "<Primary> ::= ( <Expression> )" << endl;
 			}
 		}
