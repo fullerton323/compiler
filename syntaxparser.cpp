@@ -406,7 +406,7 @@ bool syntaxparser::Assign(){
 
 bool syntaxparser::If(){
 	bool bIf = false;
-	if(token == "if"){
+	if(lexeme == "if"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -453,7 +453,7 @@ bool syntaxparser::Return(){
 
 bool syntaxparser::Write(){
 	bool bWrite = false;
-	if (token == "write"){
+	if (lexeme == "write"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -476,7 +476,7 @@ bool syntaxparser::Write(){
 
 bool syntaxparser::Read(){
 	bool bRead = false;
-	if (token == "read"){
+	if (lexeme == "read"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -498,7 +498,7 @@ bool syntaxparser::Read(){
 
 bool syntaxparser::While(){
 	bool bWhile = false;
-	if (token == "while"){
+	if (lexeme == "while"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
