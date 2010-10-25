@@ -433,7 +433,7 @@ bool syntaxparser::If(){
 
 bool syntaxparser::Return(){
 	bool bReturn = false;
-	if (token == "return"){
+	if (lexeme == "return"){
 		Lexer();
 		if (lexeme == ";"){
 			Lexer();
