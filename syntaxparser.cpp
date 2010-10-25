@@ -399,8 +399,7 @@ bool syntaxparser::Assign(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <Assign>" << endl;
+	
 	return bAssign;
 }
 
@@ -425,8 +424,7 @@ bool syntaxparser::If(){
 			}
 		}
 	}
-	else
-		cout << "Error: <If>" << endl;
+	
 	return bIf;
 }
 
@@ -448,8 +446,7 @@ bool syntaxparser::Return(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <Return>" << endl;
+	
 	return bReturn;
 }
 
@@ -472,8 +469,7 @@ bool syntaxparser::Write(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <WRITE>" << endl;
+	
 	return bWrite;
 }
 
@@ -496,8 +492,7 @@ bool syntaxparser::Read(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <READ>;" << endl;
+	
 	return bRead;
 }
 
@@ -518,8 +513,7 @@ bool syntaxparser::While(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <While>" << endl;
+	
 	return bWhile;
 }
 
