@@ -691,6 +691,14 @@ bool syntaxparser::Primary(){
 		Primary = true;
 		cout<<"<Primary> ::= <integer>"<<endl;
 
+	}else if(lexeme == "("){
+		Lexer();
+		if (Expression()){
+			if (lexeme == ")"){
+				Lexer();
+				cout << "<Primary> ::= ( <Expression> )" << endl;
+			}
+		}
 	}else if(token == "real"){
 		Lexer();
 		Primary = true;
