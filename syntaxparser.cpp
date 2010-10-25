@@ -399,15 +399,14 @@ bool syntaxparser::Assign(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <Assign>" << endl;
+	
 	return bAssign;
 }
 
 
 bool syntaxparser::If(){
 	bool bIf = false;
-	if(token == "if"){
+	if(lexeme == "if"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -425,8 +424,7 @@ bool syntaxparser::If(){
 			}
 		}
 	}
-	else
-		cout << "Error: <If>" << endl;
+	
 	return bIf;
 }
 
@@ -448,15 +446,14 @@ bool syntaxparser::Return(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <Return>" << endl;
+	
 	return bReturn;
 }
 
 
 bool syntaxparser::Write(){
 	bool bWrite = false;
-	if (token == "write"){
+	if (lexeme == "write"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -472,15 +469,14 @@ bool syntaxparser::Write(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <WRITE>" << endl;
+	
 	return bWrite;
 }
 
 
 bool syntaxparser::Read(){
 	bool bRead = false;
-	if (token == "read"){
+	if (lexeme == "read"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -496,14 +492,13 @@ bool syntaxparser::Read(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <READ>;" << endl;
+	
 	return bRead;
 }
 
 bool syntaxparser::While(){
 	bool bWhile = false;
-	if (token == "while"){
+	if (lexeme == "while"){
 		Lexer();
 		if (lexeme == "("){
 			Lexer();
@@ -518,8 +513,7 @@ bool syntaxparser::While(){
 			}
 		}
 	}
-	else
-		cout << "ERROR: <While>" << endl;
+	
 	return bWhile;
 }
 
