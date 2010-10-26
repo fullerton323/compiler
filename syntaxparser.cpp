@@ -8,6 +8,35 @@ syntaxparser::syntaxparser(string lexfilename){
 		
 }
 
+void syntaxparser::setDisplay(){
+	bool flag = true;
+	char c;
+	while (flag){
+		cout << "Would you like to display the syntax rules? (y/n) : ";
+		cin >> c;
+		switch (c){
+		case 'y':
+			displayFlag = true;
+			flag = false;
+			break;
+		case 'Y':
+			displayFlag = true;
+			flag = false;
+			break;
+		case 'n':
+			displayFlag = false;
+			flag = false;
+			break;
+		case 'N':
+			displayFlag = false;
+			flag = false;
+			break;
+		default:
+			cout << "Please enter in a correct value (y/n)! " << endl;
+			break;
+		}
+	}
+}
 
 bool syntaxparser::Lexer(){
 
@@ -30,15 +59,15 @@ bool syntaxparser::Lexer(){
 }
 
 void syntaxparser::Rat10F(){
+	setDisplay();
 	Lexer();
 
-
-	
-
-	
 	if( lexeme == "$$"){
+		if (displayFlag){
+			cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$ << endl";
+		}
 		Lexer();
-
+		
 
 		OptFunctionDefinitions();
 		
@@ -326,6 +355,8 @@ bool syntaxparser::StatementList(){
 		bStatementList = true;
 		cout<<"<Statement List> ::= <Statement>"<<endl;
 	}
+	else
+		cout << "Error: Statement List" << endl;
 
 
 	return bStatementList;

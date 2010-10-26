@@ -43,6 +43,7 @@ public:
 	bool TermPrime();
 	bool Empty();
 	bool Lexer();
+	void setDisplay();
 
 private:
 	
@@ -51,4 +52,5 @@ private:
 	string filename;
 	ifstream file;
 	int lineNumber;
+	bool displayFlag;
 };
