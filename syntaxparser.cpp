@@ -414,7 +414,7 @@ bool syntaxparser::If(){
 				if (lexeme == ")"){
 					Lexer();
 					if (Statement()){
-						if (token == "endif"){
+						if (lexeme == "endif"){
 							Lexer();
 							bIf = true;
 							cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
