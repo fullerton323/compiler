@@ -101,8 +101,11 @@ bool syntaxparser::OptFunctionDefinitions(){
 
 	bool OptFunctionDefinitions =false;
 
-	if(FunctionDefinitions()){
+	if (lexeme == "function"){
 		cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
+	}
+	if(FunctionDefinitions()){
+		
 		OptFunctionDefinitions = true;
 	}
 	else if(Empty()) {
