@@ -309,17 +309,28 @@ bool syntaxparser::Body(){
 
 
 bool syntaxparser::OptDeclarationList(){
-	
+
 	bool OptDeclarationList=false;
 
-	if(DeclarationList()){
-
-		cout<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
+	//checks to see if next lexeme is a qualifier
+	if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
+		print();
+		if (displayFlag){
+			
+			cout<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
+			
+		}
 		OptDeclarationList = true;
+		DeclarationList();
 	}
-	else if(Empty()){
+	else{ // if no optional declaration list then its empty
+
+		if (displayFlag){
+			cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
+		}
 		cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
 		OptDeclarationList = true;
+
 	}
 
 	return OptDeclarationList;
