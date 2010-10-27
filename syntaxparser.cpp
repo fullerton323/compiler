@@ -236,19 +236,10 @@ bool syntaxparser::ParameterList(){
 
 		if(lexeme ==","){
 			Lexer();
-
-			if(ParameterList()){
-				bParameterList= true;
-				flag=true;
-
-			}
-
-			bParameterList= true;
-			if(flag == false){
-			cout<<"<Parameter List> ::= <Parameter>"<<endl;
+			// if we have a comma then we recursively call for more additional parameters
+			ParameterList();
 		}
 		bParameterList= true;
-	}
 
 	return bParameterList;
 }
@@ -262,16 +253,14 @@ bool syntaxparser::Parameter(){
 	IDs();
 
 		if(lexeme ==":"){
-			Lexer(); print();
+			print(); //print the colon
+			Lexer(); print(); //get next token and print
 			Qualifier();
 			Parameter = true;
 		}else{
 			error("Missing ':'");
 			
 		}
-
-	
-	
 
 	return Parameter;
 }
@@ -281,8 +270,9 @@ bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
 	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
 	{
+		cout << "<Qualifier> ::= " << lexeme << endl;
 		bQualifier = true;
-		Lexer();
+		Lexer(); print();
 	}
 	
 
