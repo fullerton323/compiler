@@ -171,9 +171,7 @@ bool syntaxparser::Function(){
 				cout<<"Not an identifier"<<endl;
 			}
 
-	} else {
-		cout<<"No keyword 'function'"<<endl;
-	 }
+	} 
 
 	return bFunction;
 
@@ -359,8 +357,10 @@ bool syntaxparser::StatementList(){
 		cout<<"<Statement List> ::= <Statement>"<<endl;
 	}
 	else
-		cout << "Error: Statement List" << endl;
-
+	{
+		// << "Error: Statement List" << endl;
+		bStatementList = true;
+	}
 
 	return bStatementList;
 }
@@ -395,9 +395,11 @@ bool syntaxparser::Statement(){
 	else if (While()){
 		bStatement = true;
 		cout << "<Statement> ::= <While>" << endl;
-	}
-	else
-		cout << "Error : <Statement>" << endl;
+	}else 
+		cout<<"NO statement"<<endl;
+		
+	
+
 	return bStatement;
 }
 
@@ -448,7 +450,7 @@ bool syntaxparser::If(){
 				if (lexeme == ")"){
 					Lexer();
 					if (Statement()){
-						if (token == "endif"){
+						if (lexeme == "endif"){
 							Lexer();
 							bIf = true;
 							cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
