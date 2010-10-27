@@ -20,7 +20,7 @@ void syntaxparser::exception(){
 void syntaxparser::error(string message){
 
 	
-	cout<<"\n"<<message<<" On Line: "<< lineNumber <<endl;
+	cout<<"\n"<<"Syntax Error: "<<message<<" On Line: "<< lineNumber <<endl;
 	exception();
 
 }
@@ -88,7 +88,7 @@ void syntaxparser::Rat10F(){
 		OptFunctionDefinitions();
 		
 		if( lexeme == "$$"){
-			Lexer(); print();
+			Lexer(); 
 
 
 			OptDeclarationList();
@@ -122,6 +122,7 @@ bool syntaxparser::OptFunctionDefinitions(){
 	//check to see if the next lexeme is a function
 	if (lexeme == "function"){
 		print();
+
 		if (displayFlag){
 			cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
 		}
@@ -326,10 +327,11 @@ bool syntaxparser::OptDeclarationList(){
 	else{ // if no optional declaration list then its empty
 
 		if (displayFlag){
-			cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
+			cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
 		}
-		cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
+		
 		OptDeclarationList = true;
+		Empty();
 
 	}
 
@@ -338,6 +340,31 @@ bool syntaxparser::OptDeclarationList(){
 
 
 bool syntaxparser::DeclarationList(){
+
+	/*
+
+	bool Parameter = false;
+	if (displayFlag){
+		cout<<"<Parameter> ::= <IDS> : <Qualifier>"<<endl;
+	}
+	IDs();
+
+		if(lexeme ==":"){
+			print(); //print the colon
+			Lexer(); print(); //get next token and print
+			Qualifier();
+			Parameter = true;
+		}else{
+			error("Missing ':'");
+			
+		}
+
+	return Parameter;
+
+	*/
+
+
+
 	bool bDeclarationList = false;
 	if (Declaration()){
 			if(lexeme == ";"){
