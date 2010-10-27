@@ -88,7 +88,7 @@ void syntaxparser::Rat10F(){
 		OptFunctionDefinitions();
 		
 		if( lexeme == "$$"){
-			Lexer(); print();
+			Lexer(); 
 
 
 			OptDeclarationList();
@@ -122,6 +122,7 @@ bool syntaxparser::OptFunctionDefinitions(){
 	//check to see if the next lexeme is a function
 	if (lexeme == "function"){
 		print();
+
 		if (displayFlag){
 			cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
 		}
@@ -330,6 +331,7 @@ bool syntaxparser::OptDeclarationList(){
 		}
 		cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
 		OptDeclarationList = true;
+		Empty();
 
 	}
 
