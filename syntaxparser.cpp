@@ -238,10 +238,9 @@ bool syntaxparser::Parameter(){
 	IDs();
 
 		if(lexeme ==":"){
-			Lexer();
-			if(Qualifier()){
-				Parameter = true;
-			}
+			Lexer(); print();
+			Qualifier();
+			Parameter = true;
 		}else{
 			cout<<"Missing ':'"<<endl;
 		}
