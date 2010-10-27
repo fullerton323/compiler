@@ -103,14 +103,14 @@ bool syntaxparser::OptFunctionDefinitions(){
 	if (lexeme == "function"){
 		print();
 		if (displayFlag){
-		cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
+			cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
 		}
 		OptFunctionDefinitions = true;
 		FunctionDefinitions(); // call the function
 	}
 	else{ // if no optional function definitions then its empty
 		if (displayFlag){
-		cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
+			cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
 		}
 		Empty(); //call the empty function
 		OptFunctionDefinitions= true;
@@ -120,11 +120,13 @@ bool syntaxparser::OptFunctionDefinitions(){
 
 bool syntaxparser::FunctionDefinitions(){
 	bool bFunctionDefinitions = false;
-
+	if (displayFlag){
+		cout << "<Function Definitions> ::= <Function><Function Definitions>" << endl;
+	}
 	if(Function()){
 		if (FunctionDefinitions()){
 			bFunctionDefinitions = true;
-			cout<<"<Function Definitions> ::= <Function><Function Definitions>"<<endl;
+			
 		}
 		
 		bFunctionDefinitions = true;
@@ -136,16 +138,18 @@ bool syntaxparser::FunctionDefinitions(){
 bool syntaxparser::Function(){
 	
 	bool bFunction = false;
-
+	if (displayFlag){
+		cout<<"<Function> ::= function <identifier> [ <Opt Parameter List> ] <Opt Declaration List> <Body>"<<endl;
+	}
 	
 	if( lexeme == "function"){
-		Lexer();
+		Lexer(); print();
 
 		if(token == "identifier"){
-			Lexer();
+			Lexer(); print();
 
 			if(lexeme == "["){
-				Lexer();
+				Lexer(); 
 
 				if(OptParameterList()){
 
@@ -157,8 +161,6 @@ bool syntaxparser::Function(){
 							if(Body()){
 
 								bFunction = true;
-								cout<<"<Function> ::= function <identifier> [ <Opt Parameter List> ] <Opt Declaration List> <Body>"<<endl;
-
 							}
 						}
 					}
@@ -180,12 +182,19 @@ bool syntaxparser::Function(){
 
 bool syntaxparser::OptParameterList(){
 	bool OptParameterList = false;
-
-	if(ParameterList()){
-		cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
+	//check to see if the optional parameter list is empty
+	if (lexeme != "]"){
+		if (displayFlag){
+			cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
+		}
+		ParameterList();		
 		OptParameterList = true;
-	}else if(Empty()){
-		cout<<"<Opt Parameter List> ::= <empty>"<<endl;
+	}else{
+		if (displayFlag){
+			cout<<"<Opt Parameter List> ::= <empty>"<<endl;
+		}
+		Empty();
+		OptParameterList = true;
 	}
 	
 
