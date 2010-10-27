@@ -50,30 +50,28 @@ bool syntaxparser::Lexer(){
 			lineNumber++;
 			file >> token >> lexeme;
 			
-		}
-
-
-	cout<< left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl; 
+		} 
 	
 	return flag;
 }
 
+void syntaxparser::print(){
+	cout<<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
+}
+
 void syntaxparser::Rat10F(){
 	setDisplay();
-	Lexer();
+	Lexer(); print();
 
 	if( lexeme == "$$"){
 		if (displayFlag){
-			cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$ << endl";
+			cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$" << endl;
 		}
-		Lexer();
 		
-
 		OptFunctionDefinitions();
 		
-
 		if( lexeme == "$$"){
-			Lexer();
+			Lexer(); print();
 
 
 			OptDeclarationList();
@@ -98,22 +96,25 @@ void syntaxparser::Rat10F(){
 
 
 bool syntaxparser::OptFunctionDefinitions(){
-
 	bool OptFunctionDefinitions =false;
+	Lexer();
 
+	//check to see if the next lexeme is a function
 	if (lexeme == "function"){
+		print();
+		if (displayFlag){
 		cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
-	}
-	if(FunctionDefinitions()){
-		
+		}
 		OptFunctionDefinitions = true;
+		FunctionDefinitions(); // call the function
 	}
-	else if(Empty()) {
-
+	else{ // if no optional function definitions then its empty
+		if (displayFlag){
 		cout<<"<Opt Function Definitions> ::= <Empty>"<<endl;
+		}
+		Empty(); //call the empty function
 		OptFunctionDefinitions= true;
 	}
-
 	return OptFunctionDefinitions;
 }
 

@@ -44,10 +44,10 @@ public:
 	bool Empty();
 	bool Lexer();
 	void setDisplay();
+	void print();
 
 private:
-	
-	
+
 	string lexeme, token;
 	string filename;
 	ifstream file;
