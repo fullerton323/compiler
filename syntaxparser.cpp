@@ -283,20 +283,20 @@ bool syntaxparser::Body(){
 	bool body = false;
 
 	if(lexeme == "{"){
-		Lexer();
-
-		if(StatementList()){
+		 print(); 
+		 Lexer(); 
+		 cout<<"<Body> ::= { <Statement List> }"<<endl;
+		 StatementList();
 			
 			if(lexeme == "}"){
 				Lexer();
 
 				body = true;
-				cout<<"<Body> ::= { <Statement List> }"<<endl;
 			}else{
 				error("Missing ']'");
 				
 			}
-		}
+		
 
 	}else{
 		error("Missing '{'");
@@ -392,21 +392,15 @@ bool syntaxparser::IDs(){
 
 bool syntaxparser::StatementList(){
 	bool bStatementList = false;
-
-	if(Statement()){
-		if (StatementList()){
+	if (displayFlag){
+		cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
+	}
+	Statement();
+		if (token == "keyword"){
 			bStatementList = true;
-			cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
+			StatementList();
 		}
-		
 		bStatementList = true;
-		cout<<"<Statement List> ::= <Statement>"<<endl;
-	}
-	else
-	{
-		
-		bStatementList = true;
-	}
 
 	return bStatementList;
 }
@@ -414,38 +408,42 @@ bool syntaxparser::StatementList(){
 
 bool syntaxparser::Statement(){
 	bool bStatement = false;
-	if (Compound()){
+	if (lexeme == "compound"){
 		bStatement = true;
 		cout << "<Statement> ::= <Compound>" << endl;
+		Compound();
 	}
-	else if (Assign()){
+	else if (lexeme == "assign"){
 		bStatement = true;
 		cout << "<Statement> ::= <Assign>" << endl;
+		Assign();
 	}
-	else if (If()){
+	else if (lexeme == "if"){
 		bStatement = true;
 		cout << "<Statement> ::= <If>" << endl;
+		If();
 	}
-	else if (Return()){
+	else if (lexeme == "return"){
 		bStatement = true;
 		cout << "<Statement> ::= <Return>" << endl;
+		Return();
 	}
-	else if (Write()){
+	else if (lexeme == "write"){
 		bStatement = true;
 		cout << "<Statement> ::= <Write>" << endl;
+		Write();
 	}
-	else if (Read()){
+	else if (lexeme == "read"){
 		bStatement = true;
 		cout << "<Statement> ::= <Read>" << endl;
+		Read();
 	}
-	else if (While()){
+	else if (lexeme == "while"){
 		bStatement = true;
 		cout << "<Statement> ::= <While>" << endl;
+		While();
 	}else 
 		error("NO statement");
-		
-		
-	
 
 	return bStatement;
 }
