@@ -150,7 +150,9 @@ bool syntaxparser::FunctionDefinitions(){
 		}
 		
 		bFunctionDefinitions = true;
-		cout << "<Function Definitions> ::= <Function>" << endl;
+		if (displayFlag){
+			cout << "<Function Definitions> ::= <Function>" << endl;
+		}
 	}	
 	return bFunctionDefinitions;
 }
@@ -169,7 +171,7 @@ bool syntaxparser::Function(){
 			Lexer(); print();
 
 			if(lexeme == "["){
-				Lexer(); 
+				Lexer();
 
 				if(OptParameterList()){
 
@@ -207,41 +209,42 @@ bool syntaxparser::OptParameterList(){
 	bool OptParameterList = false;
 	//check to see if the optional parameter list is empty
 	if (lexeme != "]"){
+		print();
 		if (displayFlag){
 			cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
 		}
 		ParameterList();		
 		OptParameterList = true;
-	}else{
+	}else if(lexeme == "]"){
 		if (displayFlag){
 			cout<<"<Opt Parameter List> ::= <empty>"<<endl;
 		}
 		Empty();
 		OptParameterList = true;
 	}
-	
-	
+
 	return OptParameterList;
 }
 
 bool syntaxparser::ParameterList(){
 
 	bool bParameterList= false, flag=false;
-
-	if(Parameter()){
+	if (displayFlag){
+		cout << "<Parameter List> ::= <Parameter> , <Parameter List>"<< endl;
+	}
+	Parameter();
 
 		if(lexeme ==","){
 			Lexer();
 
 			if(ParameterList()){
 				bParameterList= true;
-				cout<<"<Parameter List> ::= <Parameter> , <Parameter List>"<<endl;
 				flag=true;
 
 			}
 
 			bParameterList= true;
-			if(flag == false)
+			if(flag == false){
 			cout<<"<Parameter List> ::= <Parameter>"<<endl;
 		}
 		bParameterList= true;
@@ -253,22 +256,24 @@ bool syntaxparser::ParameterList(){
 bool syntaxparser::Parameter(){
 	
 	bool Parameter = false;
-
-	if(IDs()){
+	if (displayFlag){
+		cout<<"<Parameter> ::= <IDS> : <Qualifier>"<<endl;
+	}
+	IDs();
 
 		if(lexeme ==":"){
 			Lexer();
 			if(Qualifier()){
 				Parameter = true;
-				cout<<"<Parameter> ::= <IDS> : <Qulifier>"<<endl;
-
 			}
 		}else{
 			error("Missing ':'");
 			
 		}
-	}
+
 	
+	
+
 	return Parameter;
 }
 
@@ -364,13 +369,18 @@ bool syntaxparser::Declaration(){
 bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
+
+		//check to see if the next token is a comma
 		Lexer();
 		if (lexeme == ","){
-			Lexer();
-			if(IDs()){
-				bIDs = true;
+			if (displayFlag){
 				cout << "<IDs> ::= <Identifier>, <IDs>" << endl;
 			}
+			print(); // print out the comma
+			Lexer(); // get the next token to see if ID
+			print(); // print out the next token, which should be an identifier
+			IDs();
+			bIDs = true;
 		}
 		bIDs = true;
 		cout << "<IDs> ::= <Identifier>" << endl;
