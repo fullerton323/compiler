@@ -45,6 +45,8 @@ public:
 	bool Lexer();
 	void setDisplay();
 	void print();
+	void exception();
+	void error(string message);
 
 private:
 

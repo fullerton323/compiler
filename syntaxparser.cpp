@@ -5,7 +5,24 @@ syntaxparser::syntaxparser(string lexfilename){
 		filename = lexfilename;
 		file.open(filename);
 		lineNumber = 0;
-		
+}
+
+
+void syntaxparser::exception(){
+
+	char a;
+	cout<<"\n"<<"Hit any letter to exit.."<<endl;
+	cin>>a;
+	exit (1);
+
+}
+
+void syntaxparser::error(string message){
+
+	
+	cout<<"\n"<<message<<" On Line: "<< lineNumber <<endl;
+	exception();
+
 }
 
 void syntaxparser::setDisplay(){
@@ -83,14 +100,17 @@ void syntaxparser::Rat10F(){
 				Lexer();
 			}
 			else if( lexeme != "$$")
-			cout<<"Errror no Finishing $$"<<endl;
+				error("Missing Finishing $$");
+			
 		}
 		else if( lexeme != "$$")
-			cout<<"Errror no $$ after Function definitions"<<endl;
+			error("Missing $$ after Function definitions");
+			
 
 	}
 	else if( lexeme != "$$")
-		cout<<"Errror no $$"<<endl;
+		error("Missing $$");
+		
 
 }
 
@@ -169,12 +189,15 @@ bool syntaxparser::Function(){
 				}
 
 			}else{
-				cout<<"Missing '[' separator"<<endl;
+				error("Missing '[' separator");
+				
 			}
 
 		}else{
-				cout<<"Not an identifier"<<endl;
-			}
+				error("Missing identifier");
+				
+				
+		}
 
 	} 
 
@@ -199,6 +222,7 @@ bool syntaxparser::OptParameterList(){
 		Empty();
 		OptParameterList = true;
 	}
+
 	return OptParameterList;
 }
 
@@ -242,8 +266,12 @@ bool syntaxparser::Parameter(){
 			Qualifier();
 			Parameter = true;
 		}else{
-			cout<<"Missing ':'"<<endl;
+			error("Missing ':'");
+			
 		}
+
+	
+	
 
 	return Parameter;
 }
@@ -275,12 +303,14 @@ bool syntaxparser::Body(){
 				body = true;
 				cout<<"<Body> ::= { <Statement List> }"<<endl;
 			}else{
-				cout<<"Missing ']'"<<endl;
+				error("Missing ']'");
+				
 			}
 		}
 
 	}else{
-		cout<<"Missing '{'"<<endl;
+		error("Missing '{'");
+		
 	}
 
 	return body;
@@ -355,7 +385,7 @@ bool syntaxparser::IDs(){
 		cout << "<IDs> ::= <Identifier>" << endl;
 	}
 	else
-		cout << "ERROR: <IDs>" << endl;
+		error("ERROR: <IDs>");
 	return bIDs;
 }
 
@@ -373,7 +403,7 @@ bool syntaxparser::StatementList(){
 	}
 	else
 	{
-		// << "Error: Statement List" << endl;
+		
 		bStatementList = true;
 	}
 
@@ -411,7 +441,8 @@ bool syntaxparser::Statement(){
 		bStatement = true;
 		cout << "<Statement> ::= <While>" << endl;
 	}else 
-		cout<<"NO statement"<<endl;
+		error("NO statement");
+		
 		
 	
 
@@ -576,7 +607,8 @@ bool syntaxparser::Condition(){
 		cout << "<Condition> :== <Expression> <Relop> <Expression>" << endl;
 	}
 	else
-		cout << "ERROR: <Condition>" << endl;
+		error("Missing Condition" );
+
 	return bCondition;
 }
 
@@ -611,7 +643,8 @@ bool syntaxparser::Relop(){
 		Relop = true;
 		cout<<"<Relop> ::= <=" << endl;
 	}else 
-		cout<<"Missing Relop"<<endl;
+		
+		error("Missing Relop");
 
 	return Relop;
 }
@@ -623,7 +656,8 @@ bool syntaxparser::Expression(){
 		cout << "<Expression> ::= <Term><ExpressionPrime>" << endl;
 	}
 	else
-		cout << "ERROR: <Expression>" << endl;
+		error("Missing Expression");
+		
 	return bExpression;
 }
 
@@ -760,7 +794,7 @@ bool syntaxparser::Primary(){
 		Primary = true;
 		cout<<"<Primary> ::= <false>"<<endl;
 	}else
-		cout<<"Missing Primary"<<endl;
+		error("Missing Primary");
 
 		return Primary;
 
