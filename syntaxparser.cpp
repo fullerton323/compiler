@@ -269,11 +269,14 @@ bool syntaxparser::Parameter(){
 
 bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
+
+	 
 	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
 	{
+		print();
 		cout << "<Qualifier> ::= " << lexeme << endl;
 		bQualifier = true;
-		Lexer(); print();
+		Lexer();
 	}
 	
 
@@ -315,13 +318,14 @@ bool syntaxparser::OptDeclarationList(){
 
 	//checks to see if next lexeme is a qualifier
 	if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
-		print();
+	
 		if (displayFlag){
 			
-			cout<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
+			cout<<endl<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
 			
 		}
 		OptDeclarationList = true;
+		
 		DeclarationList();
 	}
 	else{ // if no optional declaration list then its empty
@@ -341,76 +345,75 @@ bool syntaxparser::OptDeclarationList(){
 
 bool syntaxparser::DeclarationList(){
 
-	/*
-
-	bool Parameter = false;
-	if (displayFlag){
-		cout<<"<Parameter> ::= <IDS> : <Qualifier>"<<endl;
-	}
-	IDs();
-
-		if(lexeme ==":"){
-			print(); //print the colon
-			Lexer(); print(); //get next token and print
-			Qualifier();
-			Parameter = true;
-		}else{
-			error("Missing ':'");
-			
-		}
-
-	return Parameter;
-
-	*/
-
-
-
 	bool bDeclarationList = false;
-	if (Declaration()){
-			if(lexeme == ";"){
-				Lexer();
-				if(DeclarationList()){
-					bDeclarationList = true;
-					cout << "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
-				}
-				
-				bDeclarationList = true;
-				cout << "<DeclarationList> ::= <Declaration>" << endl;
-			}		
+	if (displayFlag){
+		cout <<endl<< "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
 	}
+	Declaration();
+
+	//checks to see if next lexeme is a qualifier
+	if(lexeme ==";"){
+		Lexer();
+		if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
+			Lexer();
+			// if we have a semi colon then we recursively call for more additional declarations
+			DeclarationList();
+		}
+	}
+	bDeclarationList = true;
+
 	
 	return bDeclarationList;
 }
 
+
 bool syntaxparser::Declaration(){
 	bool bDeclaration = false;
-	if (Qualifier() && IDs()){
-		bDeclaration = true;
+
+	if (displayFlag){
 		cout << "<Declaration> ::= <Qualifier> <IDs>" << endl;
 	}
-	
+
+	cout<<endl;
+	Qualifier();
+	cout<<endl;
+
+	IDs();
+
+	bDeclaration = true;
+
 	return bDeclaration;
+
+
 }
 
 
 bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
-
-		//check to see if the next token is a comma
+		print();
 		Lexer();
+		
+		if (displayFlag){
+				cout << "<IDs> ::= <Identifier>"<<endl;
+			}
+
+
+		
 		if (lexeme == ","){
 			if (displayFlag){
 				cout << "<IDs> ::= <Identifier>, <IDs>" << endl;
 			}
 			print(); // print out the comma
 			Lexer(); // get the next token to see if ID
-			print(); // print out the next token, which should be an identifier
+			//print(); // print out the next token, which should be an identifier
 			IDs();
 			bIDs = true;
 		}
+
+
 		bIDs = true;
-		cout << "<IDs> ::= <Identifier>" << endl;
+		
 	}
 	else
 		error("ERROR: <IDs>");
