@@ -1,10 +1,12 @@
 #include"syntaxparser.h"
 
 
-syntaxparser::syntaxparser(string lexfilename){
+syntaxparser::syntaxparser(string lexfilename, string profile){
 		filename = lexfilename;
 		file.open(filename);
 		lineNumber = 0;
+		filename = profile;
+		outfile.open(profile);
 }
 
 
@@ -74,9 +76,14 @@ bool syntaxparser::Lexer(){
 
 void syntaxparser::print(){
 	cout<<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
-	
+	outfile <<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
 }
 
+
+void syntaxparser::printproduction(string message){
+	outfile << message << endl;
+
+}
 void syntaxparser::Rat10F(){
 	setDisplay();
 	Lexer(); print();

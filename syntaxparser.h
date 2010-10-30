@@ -9,7 +9,7 @@ class syntaxparser{
 
 public:
 
-	syntaxparser(string lexfilename);
+	syntaxparser(string lexfilename, string profile);
 
 	void Rat10F();
 	bool OptFunctionDefinitions();
@@ -47,6 +47,7 @@ public:
 	void print();
 	void exception();
 	void error(string message);
+	void printproduction(string message);
 
 private:
 
@@ -55,4 +56,5 @@ private:
 	ifstream file;
 	int lineNumber;
 	bool displayFlag;
+	ofstream outfile;
 };
