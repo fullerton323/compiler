@@ -600,16 +600,12 @@ bool syntaxparser::If(){
 
 						Statement();
 
-					}
-
-
-
-
-					if (lexeme == "endif"){
-					print();
-					cout<<endl;
-					Lexer();
-					bIf = true;
+					}else
+						if (lexeme == "endif"){
+						print();
+						cout<<endl;
+						Lexer();
+						bIf = true;
 							
 					}else
 						error("Missing 'endif'");
