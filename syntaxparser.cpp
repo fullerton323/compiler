@@ -97,7 +97,7 @@ void syntaxparser::Rat10F(){
 			
 
 			if( lexeme == "$$"){
-				Lexer();
+				cout<<"========>>>>> Syntax is Correct! <<<<<=========="<<endl;
 			}
 			else if( lexeme != "$$")
 				error("Missing Finishing $$");
@@ -121,7 +121,7 @@ bool syntaxparser::OptFunctionDefinitions(){
 
 	//check to see if the next lexeme is a function
 	if (lexeme == "function"){
-		print();
+		
 
 		if (displayFlag){
 			cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
@@ -164,7 +164,7 @@ bool syntaxparser::Function(){
 	if (displayFlag){
 		cout<<"<Function> ::= function <identifier> [ <Opt Parameter List> ] <Opt Declaration List> <Body>"<<endl;
 	}
-	
+	print();
 	if( lexeme == "function"){
 		Lexer(); print();
 
@@ -177,8 +177,9 @@ bool syntaxparser::Function(){
 				if(OptParameterList()){
 
 					if(lexeme == "]"){
+						print();
 						Lexer();
-
+						cout<<endl;
 						if(OptDeclarationList()){
 
 							if(Body()){
@@ -186,7 +187,8 @@ bool syntaxparser::Function(){
 								bFunction = true;
 							}
 						}
-					}
+					}else
+					error("Missing ']'");
 				}
 
 			}else{
@@ -210,7 +212,7 @@ bool syntaxparser::OptParameterList(){
 	bool OptParameterList = false;
 	//check to see if the optional parameter list is empty
 	if (lexeme != "]"){
-		print();
+		
 		if (displayFlag){
 			cout<<"<Opt Parameter List> ::= <Parameter List>"<<endl;
 		}
@@ -255,7 +257,7 @@ bool syntaxparser::Parameter(){
 
 		if(lexeme ==":"){
 			print(); //print the colon
-			Lexer(); print(); //get next token and print
+			Lexer();  //get next token 
 			Qualifier();
 			Parameter = true;
 		}else{
@@ -270,11 +272,14 @@ bool syntaxparser::Parameter(){
 bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
 
-	 
+	 if(displayFlag){
+		 cout << "<Qualifier> ::= " << lexeme << endl;
+	 }
+
 	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
 	{
 		print();
-		cout << "<Qualifier> ::= " << lexeme << endl;
+		
 		bQualifier = true;
 		Lexer();
 	}
@@ -289,15 +294,19 @@ bool syntaxparser::Body(){
 	if(lexeme == "{"){
 		 print(); 
 		 Lexer(); 
-		 cout<<"<Body> ::= { <Statement List> }"<<endl;
+
+		 if(displayFlag)
+		 cout<<endl<<"<Body> ::= { <Statement List> }"<<endl;
+
 		 StatementList();
 			
 			if(lexeme == "}"){
+				print();
 				Lexer();
 
 				body = true;
 			}else{
-				error("Missing ']'");
+				error("Missing '}'");
 				
 			}
 		
@@ -416,7 +425,7 @@ bool syntaxparser::IDs(){
 		
 	}
 	else
-		error("ERROR: <IDs>");
+		error("Missing Identifier");
 	return bIDs;
 }
 
@@ -426,7 +435,7 @@ bool syntaxparser::StatementList(){
 		cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
 	}
 	Statement();
-		if (token == "keyword"){
+		if (token == "keyword" || token == "identifier"){
 			bStatementList = true;
 			StatementList();
 		}
@@ -438,13 +447,17 @@ bool syntaxparser::StatementList(){
 
 bool syntaxparser::Statement(){
 	bool bStatement = false;
-	if (lexeme == "compound"){
+	if (lexeme == "{"){
 		bStatement = true;
+
+		if(displayFlag)
 		cout << "<Statement> ::= <Compound>" << endl;
 		Compound();
 	}
-	else if (lexeme == "assign"){
+	else if (token == "identifier"){
 		bStatement = true;
+
+		if(displayFlag)
 		cout << "<Statement> ::= <Assign>" << endl;
 		Assign();
 	}
@@ -455,6 +468,8 @@ bool syntaxparser::Statement(){
 	}
 	else if (lexeme == "return"){
 		bStatement = true;
+
+		if(displayFlag)
 		cout << "<Statement> ::= <Return>" << endl;
 		Return();
 	}
@@ -465,15 +480,19 @@ bool syntaxparser::Statement(){
 	}
 	else if (lexeme == "read"){
 		bStatement = true;
+
+		if(displayFlag)
 		cout << "<Statement> ::= <Read>" << endl;
 		Read();
 	}
 	else if (lexeme == "while"){
 		bStatement = true;
+
+		if(displayFlag)
 		cout << "<Statement> ::= <While>" << endl;
 		While();
 	}else 
-		error("NO statement");
+		bStatement = true;
 
 	return bStatement;
 }
@@ -482,14 +501,23 @@ bool syntaxparser::Statement(){
 bool syntaxparser::Compound(){
 	bool bCompound = false;
 	if (lexeme == "{"){
+		print();
+		cout<<endl;
 		Lexer();
-		if(StatementList()){
+
+		if(displayFlag)
+			cout << "<compound> ::= { <Statement List> }" << endl;
+
+		StatementList();
+
 			if(lexeme == "}"){
+				print();
+				cout<<endl;
 				bCompound = true;
-				cout << "<compound> ::= { <Statement List> }" << endl;
 				Lexer();
-			}
-		}
+			}else
+				error("Missing '}'");
+		
 	}
 	return bCompound; 
 }
@@ -497,17 +525,32 @@ bool syntaxparser::Compound(){
 
 bool syntaxparser::Assign(){
 	bool bAssign = false;
+
+
 	if (token == "identifier"){
+		print();
+		cout<<endl;
 		Lexer();
+
+		if(displayFlag)
+			cout << "<Assign> ::= <Identifier> := <Expression>;" << endl;
+
 		if (lexeme == ":="){
+			print();
+			cout<<endl;
 			Lexer();
-			if (Expression()){
+
+			Expression();
 				if(lexeme == ";"){
+					print();
+					cout<<endl;
 					Lexer();
+
 					bAssign = true;
-					cout << "<Assign> ::= <Identifier> := <Expression>;" << endl;
-				}
-			}
+					
+				}else
+					error("Missing ';'");
+			
 		}
 	}
 	
@@ -517,44 +560,84 @@ bool syntaxparser::Assign(){
 
 bool syntaxparser::If(){
 	bool bIf = false;
+
+	if (displayFlag){
+		cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
+	}
+
 	if(lexeme == "if"){
+		print();
+		cout<<endl;
 		Lexer();
 		if (lexeme == "("){
+			print();
+			cout<<endl;
 			Lexer();
-			if (Condition()){
-				if (lexeme == ")"){
+
+			Condition();
+
+
+			if (lexeme == ")"){
+				print();
+				cout<<endl;
+				Lexer();
+
+				Statement();
+					
+					if (lexeme == "endif"){
+					print();
+					cout<<endl;
 					Lexer();
-					if (Statement()){
-						if (lexeme == "endif"){
-							Lexer();
-							bIf = true;
-							cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
-						}
-					}
-				}
-			}
-		}
+					bIf = true;
+							
+					}else
+						error("Missing 'endif'");
+				
+			}else
+				error("Missing ')'");
+
+		}else 
+			error("Missing '('");
 	}
-	
+
 	return bIf;
 }
+	
+	
+
 
 
 bool syntaxparser::Return(){
 	bool bReturn = false;
 	if (lexeme == "return"){
+		print();
+		cout<<endl;
 		Lexer();
+
+		if(displayFlag)
+			cout << "<Return> ::= return;" << endl;
+
 		if (lexeme == ";"){
+			print();
+			cout<<endl;
 			Lexer();
 			bReturn = true;
-			cout << "<Return> ::= return;" << endl;
+			
 		}
-		else if (Expression()){
+		else {
+
+			Expression();
+
 			if (lexeme == ";"){
+				print();
+				cout<<endl;
 				Lexer();
 				bReturn = true;
-				cout << "<Return> ::= return <Expression>;" << endl;
-			}
+
+				if(displayFlag)
+					cout << "<Return> ::= return <Expression>;" << endl;
+			}else
+					error("Missing ';'");
 		}
 	}
 	
@@ -565,19 +648,36 @@ bool syntaxparser::Return(){
 bool syntaxparser::Write(){
 	bool bWrite = false;
 	if (lexeme == "write"){
+		print();
+		cout<<endl;
 		Lexer();
+
+		if(displayFlag)
+			cout << "<Write> ::= write ( <Expression> );" << endl;
+
 		if (lexeme == "("){
+			print();
+			cout<<endl;
 			Lexer();
-			if (Expression()){
+
+			Expression();
+
 				if (lexeme == ")"){
+					print();
+					cout<<endl;
 					Lexer();
+
 					if (lexeme == ";"){
+						print();
+						cout<<endl;
 						Lexer();
 						bWrite = true;
-						cout << "<Write> ::= write ( <Expression> );" << endl;
-					}
-				}
-			}
+						
+					}else
+						error("Missing ';'");
+				}else
+					error("Missing ')'");
+			
 		}
 	}
 	
@@ -588,19 +688,36 @@ bool syntaxparser::Write(){
 bool syntaxparser::Read(){
 	bool bRead = false;
 	if (lexeme == "read"){
+		print();
+		cout<<endl;
 		Lexer();
+
+		if(displayFlag)
+			cout << "<Read> ::= read ( <IDs> );" << endl;
+
 		if (lexeme == "("){
+			print();
+			cout<<endl;
 			Lexer();
-			if (IDs()){
+
+			IDs();
+
 				if (lexeme == ")"){
+					print();
+					cout<<endl;
 					Lexer();
+
 					if (lexeme == ";"){
+						print();
+						cout<<endl;
 						Lexer();
 						bRead = true;
-						cout << "<Read> ::= read ( <IDs> );" << endl;
-					}
-				}
-			}
+						
+					}else
+						error("Missing ';'");
+				}else
+					error("Missing ')'");
+			
 		}
 	}
 	
@@ -610,18 +727,32 @@ bool syntaxparser::Read(){
 bool syntaxparser::While(){
 	bool bWhile = false;
 	if (lexeme == "while"){
+		print();
+		cout<<endl;
 		Lexer();
+
+		if(displayFlag)
+			cout << "<While> ::=( <Condition> ) <Statement>" << endl;
+
 		if (lexeme == "("){
+			print();
+			cout<<endl;
 			Lexer();
-			if (Condition()){
+
+			Condition();
+
 				if (lexeme == ")"){
+					print();
+					cout<<endl;
 					Lexer();
-					if (Statement()){
-						bWhile = true;
-						cout << "<While> ::=( <Condition> ) <Statement>" << endl;
-					}
-				}
-			}
+
+					Statement();
+					bWhile = true;
+						
+					
+				}else
+					error("Missing ')'");
+			
 		}
 	}
 	
@@ -631,12 +762,17 @@ bool syntaxparser::While(){
 
 bool syntaxparser::Condition(){
 	bool bCondition = false;
-	if (Expression() && Relop() && Expression()){
-		bCondition = true;
+	
+
+	if(displayFlag){
 		cout << "<Condition> :== <Expression> <Relop> <Expression>" << endl;
 	}
-	else
-		error("Missing Condition" );
+
+	Expression();
+	Relop();
+	Expression();
+
+	bCondition = true;
 
 	return bCondition;
 }
@@ -644,81 +780,124 @@ bool syntaxparser::Condition(){
 
 
 bool syntaxparser::Relop(){
-
+	cout<<endl;
 	bool Relop = false;
 
 	if(lexeme == "="){
+		print();
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= =" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= =" << endl;
 	}else if(lexeme =="/="){
+		print();
+
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= /=" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= /=" << endl;
 	}else if(lexeme ==">"){
+		print();
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= >" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= >" << endl;
 	}else if(lexeme =="<"){
+		print();
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= <" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= <" << endl;
 	}else if(lexeme =="=>"){
+		print();
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= =>" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= =>" << endl;
 	}else if(lexeme =="<="){
+		print();
 		Lexer();
 		Relop = true;
-		cout<<"<Relop> ::= <=" << endl;
+		if(displayFlag)
+			cout<<"<Relop> ::= <=" << endl;
 	}else 
-		
 		error("Missing Relop");
+	
+	cout<<endl;
 
 	return Relop;
 }
 
 bool syntaxparser::Expression(){
 	bool bExpression = false;
-	if (Term() && ExpressionPrime()){
-		bExpression = true;
+	
+	if(displayFlag)
 		cout << "<Expression> ::= <Term><ExpressionPrime>" << endl;
-	}
-	else
-		error("Missing Expression");
-		
+	
+	Term();
+	ExpressionPrime();
+
+	bExpression = true;
+
 	return bExpression;
 }
 
 bool syntaxparser::ExpressionPrime(){
 	bool bExpressionPrime = false;
+	
 	if (lexeme == "+"){
+		print();
+		cout<<endl;
 		Lexer();
-		if (Term() && ExpressionPrime()){
-			bExpressionPrime = true;
+
+		if(displayFlag)
 			cout << "<ExpressionPrime> ::= +<Term><ExpressionPrime>" << endl;
-		}
+			bExpressionPrime = true;
+			
+			Term();
+			ExpressionPrime();
+			
+			
+		
 	}
 	else if (lexeme == "-"){
+		print();
+		cout<<endl;
 		Lexer();
-		if (Term() && ExpressionPrime()){
-			bExpressionPrime = true;
+
+		if(displayFlag)
 			cout << "<ExpressionPrime> ::= -<Term><ExpressionPrime>" << endl;
-		}
+			bExpressionPrime = true;
+
+			Term();
+			ExpressionPrime();
+			
+		
 	}
-	else
+	else{
 		bExpressionPrime = true;
+		if(displayFlag)
 		cout << "<ExpressionPrime> ::= e" << endl;
+	}
+		
+
+	
+
 	return bExpressionPrime;
 }
 
 
 bool syntaxparser::Term(){
 	bool bTerm = false;
-	if (Factor() && TermPrime()){
-		bTerm = true;
-		cout << "<Term> ::= <Factor><TermPrime>" << endl;
-	}
+
+	bTerm = true;
+
+	if(displayFlag)
+	cout << "<Term> ::= <Factor><TermPrime>" << endl;
+	
+
+	Factor();  
+	TermPrime();
 	
 	return bTerm;
 }
@@ -726,22 +905,42 @@ bool syntaxparser::Term(){
 bool syntaxparser::TermPrime(){
 	bool bTermPrime = false;
 	if (lexeme == "*"){
+		print();
+		cout<<endl;
 		Lexer();
-		if (Factor() && TermPrime()){
-			bTermPrime = true;
+
+		if(displayFlag)
 			cout << "<TermPrime> ::= *<Factor><TermPrime>" << endl;
-		}
+
+
+		Factor(); 
+		TermPrime();
+		
+		bTermPrime = true;
+			
+		
 	}
 	else if (lexeme == "/"){
+		print();
+		cout<<endl;
 		Lexer();
-		if (Factor() && TermPrime()){
-			bTermPrime = true;
+
+		if(displayFlag)
 			cout << "<TermPrime> ::= /<Term><FactorPrime>" << endl;
-		}
-	}
-	else
 		bTermPrime = true;
-		cout << "<TermPrime> ::= e" << endl;
+
+		Factor();
+		TermPrime();
+			
+			
+		
+	}
+	else{
+		bTermPrime = true;
+		if(displayFlag)
+			cout << "<TermPrime> ::= e" << endl;
+
+	}
 	return bTermPrime;
 }
 
@@ -751,16 +950,25 @@ bool syntaxparser::Factor(){
 	bool Factor = false;
 
 	if(lexeme == "-"){
+		print();
+		cout<<endl;
 		Lexer();
 
-		if(Primary()){
-			Factor = true;
+		if(displayFlag)
 			cout<<"<Factor> ::= -<Primary>"<<endl;
 
-		}
-	}else if(Primary()){
+		Primary();
+
 		Factor = true;
-		cout<<"<Factor> ::= <Primary>"<<endl;
+			
+
+		
+	}else {
+		if(displayFlag)
+			cout<<"<Factor> ::= <Primary>"<<endl;
+		Primary();
+		Factor = true;
+		
 	}
 	return Factor;
 }
@@ -771,57 +979,100 @@ bool syntaxparser::Factor(){
 bool syntaxparser::Primary(){
 	bool Primary = false, flag=true;
 
+	
+
 	if(token == "identifier" ){
+		print();
+		cout<<endl;
 		Lexer();
 
+		
 
 		if(lexeme == "["){
+			print();
+			cout<<endl;
 			Lexer();
 
-			if(IDs()){
+				if(displayFlag)
+						cout<<"<Primary> ::= <identifier> [ <IDs> ]"<<endl;
+				IDs();
 
 				if(lexeme == "]"){
+					print();
+					cout<<endl;
 					Lexer();
 					Primary = true;
-					cout<<"<Primary> ::= <identifier> [ <IDs> ]"<<endl;
+					
+					
+					
+					
+
 					flag = false;
 
-				}
-			}
+				}else
+					error("Missing ']'");
+			
 
 		}
 
 		if( flag == true){
 			Primary = true;
-			cout<<"<Primary> ::= <identifier>"<<endl;
+
+			if(displayFlag)
+				cout<<"<Primary> ::= <identifier>"<<endl;
 		}
 
 	}else if(token == "integer"){
+		print();
+		cout<<endl;
 		Lexer();
 		Primary = true;
-		cout<<"<Primary> ::= <integer>"<<endl;
+
+		if(displayFlag)
+			cout<<"<Primary> ::= <integer>"<<endl;
 
 	}else if(lexeme == "("){
+		print();
+		cout<<endl;
 		Lexer();
-		if (Expression()){
+
+		if(displayFlag)
+			cout << "<Primary> ::= ( <Expression> )" << endl;
+
+		Expression();
+
 			if (lexeme == ")"){
+				print();
+				cout<<endl;
 				Lexer();
 				Primary = true;
-				cout << "<Primary> ::= ( <Expression> )" << endl;
-			}
-		}
+				
+			}else
+				error("Missing ')'");
+		
 	}else if(token == "real"){
+		print();
+		cout<<endl;
 		Lexer();
 		Primary = true;
-		cout<<"<Primary> ::= <real>"<<endl;
+
+		if(displayFlag)
+			cout<<"<Primary> ::= <real>"<<endl;
+
 	}else if(token == "true"){
+		print();
+		cout<<endl;
 		Lexer();
 		Primary = true;
-		cout<<"<Primary> ::= <true>"<<endl;
+		if(displayFlag)
+			cout<<"<Primary> ::= <true>"<<endl;
 	}else if(token == "false"){
+		print();
+		cout<<endl;
 		Lexer();
 		Primary = true;
-		cout<<"<Primary> ::= <false>"<<endl;
+		if(displayFlag)
+			cout<<"<Primary> ::= <false>"<<endl;
 	}else
 		error("Missing Primary");
 
@@ -833,6 +1084,7 @@ bool syntaxparser::Primary(){
 
 bool syntaxparser::Empty(){
 	bool bEmpty = true;
-	cout << "<Empty> ::= e" << endl;
+	if(displayFlag)
+		cout << "<Empty> ::= e" << endl;
 	return bEmpty;
 }
