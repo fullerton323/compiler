@@ -1067,14 +1067,14 @@ bool syntaxparser::Primary(){
 		if(displayFlag)
 			cout<<"<Primary> ::= <real>"<<endl;
 
-	}else if(token == "true"){
+	}else if(lexeme == "true"){
 		print();
 		cout<<endl;
 		Lexer();
 		Primary = true;
 		if(displayFlag)
 			cout<<"<Primary> ::= <true>"<<endl;
-	}else if(token == "false"){
+	}else if(lexeme == "false"){
 		print();
 		cout<<endl;
 		Lexer();
