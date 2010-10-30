@@ -97,6 +97,7 @@ void syntaxparser::Rat10F(){
 			
 
 			if( lexeme == "$$"){
+				print();
 				cout<<"========>>>>> Syntax is Correct! <<<<<=========="<<endl;
 			}
 			else if( lexeme != "$$")
@@ -434,12 +435,19 @@ bool syntaxparser::StatementList(){
 	if (displayFlag){
 		cout<<"<Statement List> ::= <Statement> <Statement List>"<<endl;
 	}
-	Statement();
+	
+	if(Statement()){
+		bStatementList = true;
+	}
+	else
+		error("Missing Statement");
+
+
 		if (token == "keyword" || token == "identifier"){
 			bStatementList = true;
 			StatementList();
 		}
-		bStatementList = true;
+		
 
 	return bStatementList;
 }
@@ -491,8 +499,8 @@ bool syntaxparser::Statement(){
 		if(displayFlag)
 		cout << "<Statement> ::= <While>" << endl;
 		While();
-	}else 
-		bStatement = true;
+	}//else 
+		//bStatement = true;
 
 	return bStatement;
 }

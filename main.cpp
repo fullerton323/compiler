@@ -56,7 +56,7 @@ int main(void){
 	syntaxparser parser(outfile);
 
 	parser.Rat10F();
-
+	
 
 
 
