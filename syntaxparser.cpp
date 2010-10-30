@@ -74,6 +74,7 @@ bool syntaxparser::Lexer(){
 
 void syntaxparser::print(){
 	cout<<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
+	
 }
 
 void syntaxparser::Rat10F(){
@@ -471,6 +472,7 @@ bool syntaxparser::Statement(){
 	}
 	else if (lexeme == "if"){
 		bStatement = true;
+		if(displayFlag)
 		cout << "<Statement> ::= <If>" << endl;
 		If();
 	}
@@ -483,6 +485,7 @@ bool syntaxparser::Statement(){
 	}
 	else if (lexeme == "write"){
 		bStatement = true;
+		if(displayFlag)
 		cout << "<Statement> ::= <Write>" << endl;
 		Write();
 	}
