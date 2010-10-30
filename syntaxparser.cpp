@@ -592,6 +592,19 @@ bool syntaxparser::If(){
 
 				Statement();
 					
+					if(lexeme == "else"){
+					print();
+					cout<<endl;
+					Lexer();
+					bIf = true;
+
+						Statement();
+
+					}
+
+
+
+
 					if (lexeme == "endif"){
 					print();
 					cout<<endl;
