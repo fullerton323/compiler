@@ -9,38 +9,47 @@
 
 #include"syntaxparser.h"
 
+// Constructor for the Syntax Parser
+// Parameters: The files names of the lexical analyzer output and the production rules output
+// Purpose: Initialize the file streams, the line counter
 
-syntaxparser::syntaxparser(string lexfilename, string profile){
+syntaxparser::syntaxparser(string lexfilename, string productionfile){
 		filename = lexfilename;
 		file.open(filename);
-		lineNumber = 0;
-		filename = profile;
-		outfile.open(profile);
+		lineNumber = 0; //default set to 0
+		filename = productionfile;
+		outfile.open(productionfile);
 }
 
+// Method for handling the exceptions
+// Parameters: None
+// Purpose: Exits the program if an error is found
 
 void syntaxparser::exception(){
-
 	char a;
 	cout<<"\n"<<"Hit any letter to exit.."<<endl;
 	cin>>a;
 	exit (1);
-
 }
+
+// Method for displaying syntax errors
+// Parameters: A string value containing an error message
+// Purpose: Displays the Syntax error message to the user and then throws the exception to exit
 
 void syntaxparser::error(string message){
-
-	
-	cout<<"\n"<<"Syntax Error: "<<message<<" On Line: "<< lineNumber <<endl;
+	cout<<"\n"<<"Syntax Error: "<<message<<" On Line: "<< lineNumber << " Found: " << lexeme << endl;
 	exception();
-
 }
+
+//Method for toggling the production rules to be displayed
+// Parameters: None
+// Purpose: Allows the user to choose a yes/no option for displaying production rules
 
 void syntaxparser::setDisplay(){
 	bool flag = true;
 	char c;
 	while (flag){
-		cout << "Would you like to display the syntax rules? (y/n) : ";
+		cout << "Would you like to display the production rules? (y/n) : ";
 		cin >> c;
 		switch (c){
 		case 'y':
@@ -66,82 +75,72 @@ void syntaxparser::setDisplay(){
 	}
 }
 
+// Purpose of Lexer Method: Gets the next token and lexeme values,
+//							increases the line counter if end of line
+
 bool syntaxparser::Lexer(){
-
 	bool flag = true;
-
 	file >> token >> lexeme;
-
 	
 		while(token == "EndofLine")
 		{
 			lineNumber++;
 			file >> token >> lexeme;
-			
-		} 
-	
+		} 	
 	return flag;
 }
+
+// Purpose of print method: prints the current token and lexeme values
 
 void syntaxparser::print(){
 	cout<<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
 	outfile <<  endl << left << "Token: " << setw(14) <<token << "Lexeme: " << setw(14) << lexeme <<endl;
 }
 
+// Purpose of printproduction method: Writes out the production rule to file
+// Input parameter: A string containing the production rule
 
 void syntaxparser::printproduction(string message){
 	outfile << message << endl;
-
 }
+
+// Purpose of RAT10F method: Parses and analyzes for correct syntax of the RAT10F language
+
 void syntaxparser::Rat10F(){
 	setDisplay();
 	Lexer(); print();
-
 	if( lexeme == "$$"){
 		if (displayFlag){
 			cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$" << endl;
 			printproduction("<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$");
-		}
-		
+		}	
 		OptFunctionDefinitions();
-		
 		if( lexeme == "$$"){
 			Lexer(); 
-
-
 			OptDeclarationList();
 			StatementList();
 			
-			
-
 			if( lexeme == "$$"){
 				print();
 				cout<<"========>>>>> Syntax is Correct! <<<<<=========="<<endl;
 			}
 			else if( lexeme != "$$")
-				error("Missing Finishing $$");
-			
+				error("Missing Finishing $$");	
 		}
 		else if( lexeme != "$$")
 			error("Missing $$ after Function definitions");
-			
-
 	}
 	else if( lexeme != "$$")
 		error("Missing $$");
-		
-
 }
 
+// Purpose of OptFunctionDefintions Method: Test the Optional Functional Definition method
 
 bool syntaxparser::OptFunctionDefinitions(){
 	bool OptFunctionDefinitions =false;
 	Lexer();
-
 	//check to see if the next lexeme is a function
 	if (lexeme == "function"){
-		
-
 		if (displayFlag){
 			cout<<"<Opt Function Definitions> ::= <FunctionDefinitions>"<<endl;
 			printproduction("<Opt Function Definitions> ::= <FunctionDefinitions>");
@@ -160,6 +159,8 @@ bool syntaxparser::OptFunctionDefinitions(){
 	return OptFunctionDefinitions;
 }
 
+// Purpose: FunctionDefintitions method: Test production rule for Function Definitions
+
 bool syntaxparser::FunctionDefinitions(){
 	bool bFunctionDefinitions = false;
 	if (displayFlag){
@@ -168,10 +169,8 @@ bool syntaxparser::FunctionDefinitions(){
 	}
 	if(Function()){
 		if (FunctionDefinitions()){
-			bFunctionDefinitions = true;
-			
+			bFunctionDefinitions = true;		
 		}
-		
 		bFunctionDefinitions = true;
 		if (displayFlag){
 			cout << "<Function Definitions> ::= <Function>" << endl;
@@ -181,8 +180,9 @@ bool syntaxparser::FunctionDefinitions(){
 	return bFunctionDefinitions;
 }
 
+// Purpose: Function Method - Tests the production rule for Function
+
 bool syntaxparser::Function(){
-	
 	bool bFunction = false;
 	if (displayFlag){
 		cout<<"<Function> ::= function <identifier> [ <Opt Parameter List> ] <Opt Declaration List> <Body>"<<endl;
@@ -205,31 +205,21 @@ bool syntaxparser::Function(){
 						Lexer();
 						cout<<endl;
 						if(OptDeclarationList()){
-
 							if(Body()){
-
 								bFunction = true;
 							}
 						}
 					}else
 					error("Missing ']'");
 				}
-
 			}else{
-				error("Missing '[' separator");
-				
+				error("Missing '[' separator");		
 			}
-
 		}else{
-				error("Missing identifier");
-				
-				
+				error("Missing identifier");		
 		}
-
 	} 
-
 	return bFunction;
-
 }
 
 bool syntaxparser::OptParameterList(){

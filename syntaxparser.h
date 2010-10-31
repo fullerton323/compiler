@@ -18,7 +18,7 @@ class syntaxparser{
 
 public:
 
-	syntaxparser(string lexfilename, string profile);
+	syntaxparser(string lexfilename, string productionfile);
 
 	void Rat10F();
 	bool OptFunctionDefinitions();

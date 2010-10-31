@@ -22,15 +22,15 @@ string lexer(ifstream &file);
 
 int main(void){
 
-	string infile, outfile, profile;
+	string infile, outfile, productionfile;
 	string tokenANDLexeme;
 
-	cout << "Enter the input file ";
+	cout << "Enter the input file: ";
 	cin >>infile;
-	cout << "Enter the output file ";
+	cout << "Enter the output file: ";
 	cin >> outfile;
-	cout << "Enter output file for production rules" << endl;
-	cin >> profile;
+	cout << "Enter output file for production rules: ";
+	cin >> productionfile;
 	ifstream myinfile(infile);
 	ofstream myoutfile(outfile);
 
@@ -53,9 +53,9 @@ int main(void){
 	
 	/****************************************************************/
 
-	syntaxparser parser(outfile, profile);
+	syntaxparser parser(outfile, productionfile); // Initialize syntax parser
 
-	parser.Rat10F();
+	parser.Rat10F(); // Begin the syntax analyzer for RAT10F
 	
 
 
