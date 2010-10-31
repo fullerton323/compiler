@@ -60,7 +60,7 @@ public:
 
 private:
 
-	string lexeme, token, lexemeBuffer, tokenBuffer;
+	string lexeme, token;
 	string filename;
 	ifstream file;
 	int lineNumber;
