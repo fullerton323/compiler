@@ -1,3 +1,12 @@
+/*
+ * Authors: Bryan Perez & Charles Wang
+ * CPSC 323 - Fall 2010 (11:30-12:45)
+ * Assignment # 2 - Syntax Analyzer
+
+ Description: The header file for the Syntax Analyzer. 
+
+**/
+
 #include <iostream>
 #include <string>
 #include <fstream>
