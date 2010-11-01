@@ -370,6 +370,9 @@ bool syntaxparser::DeclarationList(){
 			DeclarationList();
 		}
 	}
+	else
+		error("Missing ;");
+
 	bDeclarationList = true;
 	return bDeclarationList;
 }
