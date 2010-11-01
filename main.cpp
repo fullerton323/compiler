@@ -25,9 +25,9 @@ int main(void){
 	string infile, outfile, productionfile;
 	string tokenANDLexeme;
 
-	cout << "Enter the input file: ";
+	cout << "Enter the input Source file: ";
 	cin >>infile;
-	cout << "Enter the output file: ";
+	cout << "Enter the output file for Token and Lexemes: ";
 	cin >> outfile;
 	cout << "Enter output file for production rules: ";
 	cin >> productionfile;
