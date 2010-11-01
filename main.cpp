@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 string lexer(ifstream &file);
 
 int main(void){
@@ -41,9 +40,7 @@ int main(void){
 		{
 			tokenANDLexeme = lexer(myinfile);
 			myoutfile<<tokenANDLexeme<<endl;
-		}
-		
-		
+		}	
 	}
 	else
 		cout << "Unable to open the file";
@@ -57,18 +54,8 @@ int main(void){
 
 	parser.Rat10F(); // Begin the syntax analyzer for RAT10F
 	
-
-
-
 	return 0;
 }
-
-
-
-
-
-
-
 
 
 
@@ -332,7 +319,6 @@ string lexer(ifstream &file){
 	}while(notfound);
 
 	both = token + " " + lexeme;
-	
 
 	return both;
 
