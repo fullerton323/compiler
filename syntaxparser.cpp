@@ -592,7 +592,12 @@ bool syntaxparser::If(){
 					Lexer();
 					bIf = true;
 					Statement();
-
+						if (lexeme == "endif"){
+						print();
+						cout<<endl;
+						Lexer();
+						bIf = true;	
+						}
 					}else
 						if (lexeme == "endif"){
 						print();
@@ -880,8 +885,8 @@ bool syntaxparser::ExpressionPrime(){
 	else{
 		bExpressionPrime = true;
 		if(displayFlag){
-			cout << "<ExpressionPrime> ::= e" << endl;
-			printproduction("<ExpressionPrime> ::= e");
+			cout << "<ExpressionPrime> ::= epsilon" << endl;
+			printproduction("<ExpressionPrime> ::= epsilon");
 		}
 	}
 	return bExpressionPrime;
@@ -932,8 +937,8 @@ bool syntaxparser::TermPrime(){
 	else{
 		bTermPrime = true;
 		if(displayFlag){
-			cout << "<TermPrime> ::= e" << endl;
-			printproduction("<TermPrime> ::= e");
+			cout << "<TermPrime> ::= epsilon" << endl;
+			printproduction("<TermPrime> ::= epsilon");
 		}
 	}
 	return bTermPrime;
@@ -1072,8 +1077,8 @@ bool syntaxparser::Primary(){
 bool syntaxparser::Empty(){
 	bool bEmpty = true;
 	if(displayFlag){
-		cout << "<Empty> ::= e" << endl;
-		printproduction("<Empty> ::= e");
+		cout << "<Empty> ::= epsilon" << endl;
+		printproduction("<Empty> ::= epsilon");
 	}
 	return bEmpty;
 }
