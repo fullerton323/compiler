@@ -60,10 +60,10 @@ public:
 
 private:
 
-	string lexeme, token;
-	string filename;
+	string lexeme, token; //variables to store the lexeme and token values
+	string filename; // stores the filename
 	ifstream file;
-	int lineNumber;
-	bool displayFlag;
+	int lineNumber; // holds the line number for error purposes
+	bool displayFlag; // flag for displaying production rules
 	ofstream outfile;
 };

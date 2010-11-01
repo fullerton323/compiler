@@ -56,19 +56,9 @@ int main(void){
 	syntaxparser parser(outfile, productionfile); // Initialize syntax parser
 
 	parser.Rat10F(); // Begin the syntax analyzer for RAT10F
-	
-
-
 
 	return 0;
 }
-
-
-
-
-
-
-
 
 
 
@@ -333,13 +323,6 @@ string lexer(ifstream &file){
 
 	both = token + " " + lexeme;
 	
-
 	return both;
 
 }
-
-
-
-
-
-
