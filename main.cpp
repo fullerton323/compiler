@@ -53,6 +53,10 @@ int main(void){
 	syntaxparser parser(outfile, productionfile); // Initialize syntax parser
 
 	parser.Rat10F(); // Begin the syntax analyzer for RAT10F
+
+	cout<<"Enter a letter to continue"<<endl;
+	char a;
+	cin>> a;
 	
 	return 0;
 }
