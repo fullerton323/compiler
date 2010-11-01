@@ -222,6 +222,8 @@ bool syntaxparser::Function(){
 	return bFunction;
 }
 
+// Purpose: Tests the production rule for optional parameter list
+
 bool syntaxparser::OptParameterList(){
 	bool OptParameterList = false;
 	//check to see if the optional parameter list is empty
@@ -241,122 +243,101 @@ bool syntaxparser::OptParameterList(){
 		Empty();
 		OptParameterList = true;
 	}
-
 	return OptParameterList;
 }
 
-bool syntaxparser::ParameterList(){
+// Purpose: Tests the production rule for Parameter list
 
+bool syntaxparser::ParameterList(){
 	bool bParameterList= false, flag=false;
 	if (displayFlag){
 		cout << "<Parameter List> ::= <Parameter> , <Parameter List>"<< endl;
 		printproduction("<Parameter List> ::= <Parameter> , <Parameter List>");
 	}
 	Parameter();
-
 		if(lexeme ==","){
 			Lexer();
 			// if we have a comma then we recursively call for more additional parameters
 			ParameterList();
 		}
 		bParameterList= true;
-
 	return bParameterList;
 }
 
+// Purpose: Tests the production rule for Parameter
+
 bool syntaxparser::Parameter(){
-	
 	bool Parameter = false;
 	if (displayFlag){
 		cout<<"<Parameter> ::= <IDS> : <Qualifier>"<<endl;
 		printproduction("<Parameter> ::= <IDS> : <Qualifier>");
 	}
 	IDs();
-
 		if(lexeme ==":"){
 			print(); //print the colon
 			Lexer();  //get next token 
 			Qualifier();
 			Parameter = true;
 		}else{
-			error("Missing ':'");
-			
+			error("Missing ':'");		
 		}
-
 	return Parameter;
 }
 
+// Purpose: Tests the production rule for Qualifier
 
 bool syntaxparser::Qualifier(){
 	bool bQualifier = false;
-
 	 if(displayFlag){
 		 cout << "<Qualifier> ::= " << lexeme << endl;
 		 printproduction("<Qualifier> ::= " + lexeme);
 	 }
-
 	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
 	{
-		print();
-		
+		print();		
 		bQualifier = true;
 		Lexer();
 	}
-	
-
 	return bQualifier;
 }
 
+// Purpose: Tests the production rule for Body
 bool syntaxparser::Body(){
 	bool body = false;
-
 	if(lexeme == "{"){
 		 print(); 
 		 Lexer(); 
-
 		 if(displayFlag){
 			cout<<endl<<"<Body> ::= { <Statement List> }"<<endl;
 			printproduction("<Body> ::= { <Statement List> }");
 		 }
-
-		 StatementList();
-			
+		 StatementList();			
 			if(lexeme == "}"){
 				print();
 				Lexer();
-
 				body = true;
 			}else{
-				error("Missing '}'");
-				
+				error("Missing '}'");				
 			}
-		
-
 	}else{
-		error("Missing '{'");
-		
+		error("Missing '{'");		
 	}
-
 	return body;
-
 }
 
+// Purpose: Tests the production rule for Optional Declaration List
 
 bool syntaxparser::OptDeclarationList(){
-
 	bool OptDeclarationList=false;
 
 	//checks to see if next lexeme is a qualifier
 	if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
 	
 		if (displayFlag){
-			
 			cout<<endl<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
 			printproduction("<OptDeclarationList> ::= <DeclarationList>");
-			
 		}
 		OptDeclarationList = true;
-		
 		DeclarationList();
 	}
 	else{ // if no optional declaration list then its empty
@@ -365,18 +346,14 @@ bool syntaxparser::OptDeclarationList(){
 			cout<<"<OptDeclarationList> ::= <Empty>"<<endl;
 			printproduction("<OptDeclarationList> ::= <Empty>");
 		}
-		
 		OptDeclarationList = true;
 		Empty();
-
 	}
-
 	return OptDeclarationList;
 }
 
-
+// Purpose: Tests the production rule for Declaration List
 bool syntaxparser::DeclarationList(){
-
 	bool bDeclarationList = false;
 	if (displayFlag){
 		cout <<endl<< "<DeclarationList> ::= <Declaration>;<DeclarationList>" << endl;
@@ -394,34 +371,26 @@ bool syntaxparser::DeclarationList(){
 		}
 	}
 	bDeclarationList = true;
-
-	
 	return bDeclarationList;
 }
 
+// Purpose: Tests the production rule for Declaration
 
 bool syntaxparser::Declaration(){
 	bool bDeclaration = false;
-
 	if (displayFlag){
 		cout << "<Declaration> ::= <Qualifier> <IDs>" << endl;
 		printproduction("<Declaration> ::= <Qualifier> <IDs>");
 	}
-
 	cout<<endl;
 	Qualifier();
 	cout<<endl;
-
 	IDs();
-
 	bDeclaration = true;
-
 	return bDeclaration;
-
-
 }
 
-
+// Purpose: Tests the production rule for IDs
 bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
@@ -431,10 +400,7 @@ bool syntaxparser::IDs(){
 		if (displayFlag){
 				cout << "<IDs> ::= <Identifier>"<<endl;
 				printproduction("<IDs> ::= <Identifier>");
-			}
-
-
-		
+			}	
 		if (lexeme == ","){
 			if (displayFlag){
 				cout << "<IDs> ::= <Identifier>, <IDs>" << endl;
@@ -446,15 +412,14 @@ bool syntaxparser::IDs(){
 			IDs();
 			bIDs = true;
 		}
-
-
-		bIDs = true;
-		
+		bIDs = true;	
 	}
 	else
 		error("Missing Identifier");
 	return bIDs;
 }
+
+// Purpose: Tests the production rule for Statement List
 
 bool syntaxparser::StatementList(){
 	bool bStatementList = false;
@@ -468,23 +433,19 @@ bool syntaxparser::StatementList(){
 	}
 	else
 		error("Missing Statement");
-
-
 		if (token == "keyword" || token == "identifier"){
 			bStatementList = true;
 			StatementList();
 		}
-		
-
 	return bStatementList;
 }
 
+//Purpose: Tests the production rule for Statement
 
 bool syntaxparser::Statement(){
 	bool bStatement = false;
 	if (lexeme == "{"){
 		bStatement = true;
-
 		if(displayFlag){
 			cout << "<Statement> ::= <Compound>" << endl;
 			printproduction("<Statement> ::= <Compound>");
@@ -493,7 +454,6 @@ bool syntaxparser::Statement(){
 	}
 	else if (token == "identifier"){
 		bStatement = true;
-
 		if(displayFlag){
 			cout << "<Statement> ::= <Assign>" << endl;
 			printproduction("<Statement> ::= <Assign>");
@@ -543,11 +503,10 @@ bool syntaxparser::Statement(){
 		}
 		While();
 	}
-
 	return bStatement;
 }
 
-
+// Purpose: Tests the production rule for Compound
 bool syntaxparser::Compound(){
 	bool bCompound = false;
 	if (lexeme == "{"){
@@ -559,9 +518,7 @@ bool syntaxparser::Compound(){
 			cout << "<compound> ::= { <Statement List> }" << endl;
 			printproduction("<compound> ::= { <Statement List> }");
 		}
-
 		StatementList();
-
 			if(lexeme == "}"){
 				print();
 				cout<<endl;
@@ -569,16 +526,14 @@ bool syntaxparser::Compound(){
 				Lexer();
 			}else
 				error("Missing '}'");
-		
 	}
 	return bCompound; 
 }
 
+// Purpose: Tets the production rule for Assign
 
 bool syntaxparser::Assign(){
 	bool bAssign = false;
-
-
 	if (token == "identifier"){
 		print();
 		cout<<endl;
@@ -599,27 +554,22 @@ bool syntaxparser::Assign(){
 					print();
 					cout<<endl;
 					Lexer();
-
 					bAssign = true;
-					
 				}else
 					error("Missing ';'");
-			
 		}
 	}
-	
 	return bAssign;
 }
 
+//Purpose: Tests the production rule for If
 
 bool syntaxparser::If(){
 	bool bIf = false;
-
 	if (displayFlag){
 		cout << "<If> ::= if ( <Condition> ) <Statement> endif" << endl;
 		printproduction("<If> ::= if ( <Condition> ) <Statement> endif");
 	}
-
 	if(lexeme == "if"){
 		print();
 		cout<<endl;
@@ -628,15 +578,12 @@ bool syntaxparser::If(){
 			print();
 			cout<<endl;
 			Lexer();
-
 			Condition();
-
 
 			if (lexeme == ")"){
 				print();
 				cout<<endl;
 				Lexer();
-
 				Statement();
 					
 					if(lexeme == "else"){
@@ -644,32 +591,25 @@ bool syntaxparser::If(){
 					cout<<endl;
 					Lexer();
 					bIf = true;
-
-						Statement();
+					Statement();
 
 					}else
 						if (lexeme == "endif"){
 						print();
 						cout<<endl;
 						Lexer();
-						bIf = true;
-							
+						bIf = true;		
 					}else
 						error("Missing 'endif'");
-				
 			}else
 				error("Missing ')'");
-
 		}else 
 			error("Missing '('");
 	}
-
 	return bIf;
 }
 	
-	
-
-
+// Purpose: Tests the production rule for Return	
 
 bool syntaxparser::Return(){
 	bool bReturn = false;
@@ -687,13 +627,10 @@ bool syntaxparser::Return(){
 			print();
 			cout<<endl;
 			Lexer();
-			bReturn = true;
-			
+			bReturn = true;	
 		}
 		else {
-
 			Expression();
-
 			if (lexeme == ";"){
 				print();
 				cout<<endl;
@@ -705,13 +642,13 @@ bool syntaxparser::Return(){
 					printproduction("<Return> ::= return <Expression>;");
 				}
 			}else
-					error("Missing ';'");
+				error("Missing ';'");
 		}
 	}
-	
 	return bReturn;
 }
 
+// Purpose: Tests the production rule for Write
 
 bool syntaxparser::Write(){
 	bool bWrite = false;
@@ -729,7 +666,6 @@ bool syntaxparser::Write(){
 			print();
 			cout<<endl;
 			Lexer();
-
 			Expression();
 
 				if (lexeme == ")"){
@@ -741,20 +677,17 @@ bool syntaxparser::Write(){
 						print();
 						cout<<endl;
 						Lexer();
-						bWrite = true;
-						
+						bWrite = true;	
 					}else
 						error("Missing ';'");
 				}else
-					error("Missing ')'");
-			
+					error("Missing ')'");	
 		}
 	}
-	
 	return bWrite;
 }
 
-
+// Purpose: Tests the production rule for Read
 bool syntaxparser::Read(){
 	bool bRead = false;
 	if (lexeme == "read"){
@@ -771,7 +704,6 @@ bool syntaxparser::Read(){
 			print();
 			cout<<endl;
 			Lexer();
-
 			IDs();
 
 				if (lexeme == ")"){
@@ -783,18 +715,17 @@ bool syntaxparser::Read(){
 						print();
 						cout<<endl;
 						Lexer();
-						bRead = true;
-						
+						bRead = true;		
 					}else
 						error("Missing ';'");
 				}else
-					error("Missing ')'");
-			
+					error("Missing ')'");	
 		}
 	}
-	
 	return bRead;
 }
+
+// Purpose: Tests the production rule for While
 
 bool syntaxparser::While(){
 	bool bWhile = false;
@@ -812,52 +743,41 @@ bool syntaxparser::While(){
 			print();
 			cout<<endl;
 			Lexer();
-
 			Condition();
 
 				if (lexeme == ")"){
 					print();
 					cout<<endl;
 					Lexer();
-
 					Statement();
 					bWhile = true;
-						
-					
 				}else
-					error("Missing ')'");
-			
+					error("Missing ')'");	
 		}
 	}
-	
 	return bWhile;
 }
 
+// Purpose: Tests the production rule for condition
 
 bool syntaxparser::Condition(){
 	bool bCondition = false;
-	
-
 	if(displayFlag){
 		cout << "<Condition> :== <Expression> <Relop> <Expression>" << endl;
 		printproduction("<Condition> :== <Expression> <Relop> <Expression>");
 	}
-
 	Expression();
 	Relop();
 	Expression();
-
 	bCondition = true;
-
 	return bCondition;
 }
 
-
+// Purpose: Tests the production rule for Relop
 
 bool syntaxparser::Relop(){
 	cout<<endl;
 	bool Relop = false;
-
 	if(lexeme == "="){
 		print();
 		Lexer();
@@ -868,7 +788,6 @@ bool syntaxparser::Relop(){
 		}
 	}else if(lexeme =="/="){
 		print();
-
 		Lexer();
 		Relop = true;
 		if(displayFlag){
@@ -911,29 +830,27 @@ bool syntaxparser::Relop(){
 		error("Missing Relop");
 	
 	cout<<endl;
-
 	return Relop;
 }
 
+// Purpose: Tests the production rule for Expression
+
 bool syntaxparser::Expression(){
 	bool bExpression = false;
-	
 	if(displayFlag){
 		cout << "<Expression> ::= <Term><ExpressionPrime>" << endl;
 		printproduction("<Expression> ::= <Term><ExpressionPrime>");
 	}
-	
 	Term();
 	ExpressionPrime();
-
 	bExpression = true;
-
 	return bExpression;
 }
 
+// Purpose: Tests the production rule for Expression Prime
+
 bool syntaxparser::ExpressionPrime(){
-	bool bExpressionPrime = false;
-	
+	bool bExpressionPrime = false;	
 	if (lexeme == "+"){
 		print();
 		cout<<endl;
@@ -943,13 +860,9 @@ bool syntaxparser::ExpressionPrime(){
 			cout << "<ExpressionPrime> ::= +<Term><ExpressionPrime>" << endl;
 			printproduction("<ExpressionPrime> ::= +<Term><ExpressionPrime>");
 		}
-			bExpressionPrime = true;
-			
+			bExpressionPrime = true;		
 			Term();
 			ExpressionPrime();
-			
-			
-		
 	}
 	else if (lexeme == "-"){
 		print();
@@ -961,11 +874,8 @@ bool syntaxparser::ExpressionPrime(){
 			printproduction("<ExpressionPrime> ::= -<Term><ExpressionPrime>");
 		}
 			bExpressionPrime = true;
-
 			Term();
 			ExpressionPrime();
-			
-		
 	}
 	else{
 		bExpressionPrime = true;
@@ -974,30 +884,24 @@ bool syntaxparser::ExpressionPrime(){
 			printproduction("<ExpressionPrime> ::= e");
 		}
 	}
-		
-
-	
-
 	return bExpressionPrime;
 }
 
-
+// Purpose: Tests the production rule for term
 bool syntaxparser::Term(){
 	bool bTerm = false;
-
-	bTerm = true;
-
 	if(displayFlag){
 		cout << "<Term> ::= <Factor><TermPrime>" << endl;
 		printproduction("<Term> ::= <Factor><TermPrime>");
 	}
-	
-
 	Factor();  
 	TermPrime();
-	
+	bTerm = true;
 	return bTerm;
 }
+
+
+// Purpose: Tests the production rule for Term Prime
 
 bool syntaxparser::TermPrime(){
 	bool bTermPrime = false;
@@ -1005,36 +909,25 @@ bool syntaxparser::TermPrime(){
 		print();
 		cout<<endl;
 		Lexer();
-
 		if(displayFlag){
 			cout << "<TermPrime> ::= *<Factor><TermPrime>" << endl;
 			printproduction("<TermPrime> ::= *<Factor><TermPrime>");
 		}
-
-
 		Factor(); 
-		TermPrime();
-		
-		bTermPrime = true;
-			
-		
+		TermPrime();	
+		bTermPrime = true;		
 	}
 	else if (lexeme == "/"){
 		print();
 		cout<<endl;
 		Lexer();
-
 		if(displayFlag){
 			cout << "<TermPrime> ::= /<Term><FactorPrime>" << endl;
 			printproduction("<TermPrime> ::= /<Term><FactorPrime>");
 		}
 		bTermPrime = true;
-
 		Factor();
 		TermPrime();
-			
-			
-		
 	}
 	else{
 		bTermPrime = true;
@@ -1042,16 +935,13 @@ bool syntaxparser::TermPrime(){
 			cout << "<TermPrime> ::= e" << endl;
 			printproduction("<TermPrime> ::= e");
 		}
-
 	}
 	return bTermPrime;
 }
 
-
+// Purpose: Tests the production rule for Factor
 bool syntaxparser::Factor(){
-
 	bool Factor = false;
-
 	if(lexeme == "-"){
 		print();
 		cout<<endl;
@@ -1061,39 +951,27 @@ bool syntaxparser::Factor(){
 			cout<<"<Factor> ::= -<Primary>"<<endl;
 			printproduction("<Factor> ::= -<Primary>");
 		}
-
 		Primary();
-
 		Factor = true;
-			
-
-		
 	}else {
 		if(displayFlag){
 			cout<<"<Factor> ::= <Primary>"<<endl;
 			printproduction("<Factor> ::= <Primary>");
 		}
 		Primary();
-		Factor = true;
-		
+		Factor = true;		
 	}
 	return Factor;
 }
 
-
-
+// Purpose: Tests the production rule for Primary
 
 bool syntaxparser::Primary(){
 	bool Primary = false, flag=true;
-
-	
-
 	if(token == "identifier" ){
 		print();
 		cout<<endl;
 		Lexer();
-
-		
 
 		if(lexeme == "["){
 			print();
@@ -1111,17 +989,9 @@ bool syntaxparser::Primary(){
 					cout<<endl;
 					Lexer();
 					Primary = true;
-					
-					
-					
-					
-
 					flag = false;
-
 				}else
 					error("Missing ']'");
-			
-
 		}
 
 		if( flag == true){
@@ -1132,7 +1002,6 @@ bool syntaxparser::Primary(){
 				printproduction("<Primary> ::= <identifier>");
 			}
 		}
-
 	}else if(token == "integer"){
 		print();
 		cout<<endl;
@@ -1143,7 +1012,6 @@ bool syntaxparser::Primary(){
 			cout<<"<Primary> ::= <integer>"<<endl;
 			printproduction("<Primary> ::= <integer>");
 		}
-
 	}else if(lexeme == "("){
 		print();
 		cout<<endl;
@@ -1160,11 +1028,10 @@ bool syntaxparser::Primary(){
 				print();
 				cout<<endl;
 				Lexer();
-				Primary = true;
-				
+				Primary = true;				
 			}else
 				error("Missing ')'");
-		
+
 	}else if(token == "real"){
 		print();
 		cout<<endl;
@@ -1198,10 +1065,9 @@ bool syntaxparser::Primary(){
 		error("Missing Primary");
 
 		return Primary;
-
 }
 
-
+// Purpose: Tests the production rule for Empty
 
 bool syntaxparser::Empty(){
 	bool bEmpty = true;
