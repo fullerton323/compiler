@@ -1,7 +1,7 @@
 /*
  * Authors: Bryan Perez & Charles Wang
  * CPSC 323 - Fall 2010 (11:30-12:45)
- * Assignment # 2 - Syntax Analyzer
+ * Assignment # 3
 
  Description: The header file for the Syntax Analyzer. 
 
@@ -11,6 +11,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include "generateassembly.h"
 
 using namespace std;
 
@@ -66,4 +67,5 @@ private:
 	int lineNumber; // holds the line number for error purposes
 	bool displayFlag; // flag for displaying production rules
 	ofstream outfile;
+	generateassembly project3;
 };

@@ -1,7 +1,7 @@
 /*
  * Authors: Bryan Perez & Charles Wang
  * CPSC 323 - Fall 2010 (11:30-12:45)
- * Assignment # 2 - Syntax Analyzer
+ * Assignment # 3
 
  Description: The implementation file for for Syntax parser class. 
 
@@ -19,6 +19,8 @@ syntaxparser::syntaxparser(string lexfilename, string productionfile){
 		lineNumber = 0; //default set to 0
 		filename = productionfile;
 		outfile.open(productionfile);
+
+		
 }
 
 // Method for handling the exceptions
@@ -118,7 +120,12 @@ void syntaxparser::Rat10F(){
 		if( lexeme == "$$"){
 			Lexer(); 
 			OptDeclarationList();
+
+			project3.StopAddingtoSymbolTable(); 
+			
 			StatementList();
+
+			project3.printsymboltable(); //// for debuging project3
 			
 			if( lexeme == "$$"){
 				print();
@@ -294,6 +301,7 @@ bool syntaxparser::Qualifier(){
 	 }
 	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
 	{
+		project3.addType(lexeme);
 		print();		
 		bQualifier = true;
 		Lexer();
@@ -365,8 +373,12 @@ bool syntaxparser::DeclarationList(){
 	if(lexeme ==";"){
 		Lexer();
 		if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
+			project3.addType(lexeme);
 			Lexer();
 			// if we have a semi colon then we recursively call for more additional declarations
+
+			
+			
 			DeclarationList();
 		}
 	}
@@ -397,8 +409,18 @@ bool syntaxparser::Declaration(){
 bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
+		
+		if(project3.checkDuplicates(lexeme))
+			project3.addIdentifier(lexeme);
+		else
+			error("Already declared variable");
+
+		
 		print();
 		Lexer();
+
+		
+		
 		
 		if (displayFlag){
 				cout << "<IDs> ::= <Identifier>"<<endl;
