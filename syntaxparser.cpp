@@ -792,11 +792,10 @@ bool syntaxparser::While(){
 					cout<<endl;
 					Lexer();
 
+					Statement();
 
 					project3.gen_inst("JUMP", addr);
 					project3.back_patch( addr);
-
-					Statement();
 					bWhile = true;
 				}else
 					error("Missing ')'");	
@@ -823,6 +822,12 @@ bool syntaxparser::Condition(){
 
 	if(op == "<"){
 		project3.gen_inst("LES", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
+	}
+	if(op == ">"){
+		project3.gen_inst("GTR", "-999");
 		addr = project3.get_instr_address();
 		project3.push_jumpstack(addr);
 		project3.gen_inst("JUMPZ", "-999");
