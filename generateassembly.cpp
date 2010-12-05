@@ -174,6 +174,16 @@ void generateassembly::gen_inst(string op, string operand){
 		
 }
 
+string generateassembly::find_previous(int goback){
+
+	string temp;
+	int back;
+	back = instraddress - goback;
+	temp = inst_table[back][2];
+	return temp;
+
+}
+
 
 
 

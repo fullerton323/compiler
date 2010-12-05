@@ -831,6 +831,8 @@ bool syntaxparser::Condition(){
 
 	string op = lexeme;
 	string addr;
+	string prev1;
+	string prev2;
 	
 	Relop();
 	Expression();
@@ -852,6 +854,31 @@ bool syntaxparser::Condition(){
 		addr = project3.get_instr_address();
 		project3.push_jumpstack(addr);
 		project3.gen_inst("JUMPZ", "-999");
+	}
+	else{
+		//special cases set these values
+		prev1 = project3.find_previous(2);
+		prev2 = project3.find_previous(1);
+	}
+
+	if (op == "/=" ){
+		// NOT EQUALS performs the same computation as equals
+		project3.gen_inst("EQl", "-999");
+	}
+
+	if (op == "=>"){
+		//greater than and equal to
+		project3.gen_inst("EQL", "-999");
+		project3.gen_inst("PUSHM",prev1);
+		project3.gen_inst("PUSHM",prev2);
+		project3.gen_inst("GTR", "-999");
+	}
+	if (op == "<="){
+		//less than and equal to
+		project3.gen_inst("LES", "-999");
+		project3.gen_inst("PUSHM",prev1);
+		project3.gen_inst("PUSHM",prev2);
+		project3.gen_inst("EQL", "-999");
 	}
 
 	
