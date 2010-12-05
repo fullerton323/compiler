@@ -744,6 +744,8 @@ bool syntaxparser::Read(){
 			print();
 			cout<<endl;
 			Lexer();
+			string temp_id;
+			temp_id = lexeme;
 			IDs();
 
 				if (lexeme == ")"){
@@ -754,7 +756,10 @@ bool syntaxparser::Read(){
 					if (lexeme == ";"){
 						print();
 						cout<<endl;
-						project3.gen_inst("PUSHSTD", ""); 
+						project3.gen_inst("PUSHSTD", "");
+						string addr;
+						addr = project3.get_address(temp_id);
+						project3.gen_inst("POPM", addr);
 						Lexer();
 						bRead = true;		
 					}else
