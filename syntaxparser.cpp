@@ -715,6 +715,7 @@ bool syntaxparser::Write(){
 					if (lexeme == ";"){
 						print();
 						cout<<endl;
+						project3.gen_inst("POPSTD", ""); //give the second parameter a nil value
 						Lexer();
 						bWrite = true;	
 					}else
@@ -753,6 +754,7 @@ bool syntaxparser::Read(){
 					if (lexeme == ";"){
 						print();
 						cout<<endl;
+						project3.gen_inst("PUSHSTD", ""); 
 						Lexer();
 						bRead = true;		
 					}else
