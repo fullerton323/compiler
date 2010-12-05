@@ -11,6 +11,8 @@
 #include <string>
 #include <sstream>
 #include <stack>
+#include <stdlib.h> 
+
 
 using namespace std;
 
@@ -25,19 +27,22 @@ public:
 	bool checkDuplicates(string identifier);
 	void StopAddingtoSymbolTable();
 	void printsymboltable();
+	string get_address(string identifier);
 
 
 	void gen_inst(string op, string operand);
+	
 
 	void back_patch(string jump_addr);
 	string get_instr_address();
+	void push_jumpstack(string instr_address);
 
 
 private:
 
 	string symboltable [300][3];
 	int memoryAddress;
-	int symbolrow;
+	int symbolrow; // a counter for how many rows are in the symbol table
 	string symboltype; 
 	bool addtoTable;
 

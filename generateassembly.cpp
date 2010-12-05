@@ -88,10 +88,36 @@ void generateassembly::StopAddingtoSymbolTable(){
 	addtoTable=false;
 }
 
+
 void generateassembly::back_patch(string jump_addr){
 
+	string addr;
+	int temp;
+
+	addr = jumpstack.top();
+	jumpstack.pop();
+
+	temp = GetIntVal(addr);
+
+	inst_table[temp][2]= jump_addr;
+
+}
+
+int GetIntVal(string strConvert) { 
+  int intReturn; 
+
+ 
+  intReturn = atoi(strConvert.c_str()); 
+
+  return(intReturn); 
+}
 
 
+
+void generateassembly::push_jumpstack(string instr_address){
+
+	jumpstack.push(instr_address);
+	
 }
 
 
@@ -104,6 +130,21 @@ string generateassembly::get_instr_address(){
 
 	return s;
 
+
+}
+
+string generateassembly::get_address(string identifier){
+	
+	string address; //local variable to store address
+	for (int i =0; i < symbolrow; i++){
+		if (symboltable[i][0] == identifier){
+			address = symboltable[i][1];
+			break;
+		}
+		else
+			address = "0"; // if not found set the address to the 0 location
+	}
+	return address;
 
 }
 
@@ -122,6 +163,8 @@ void generateassembly::gen_inst(string op, string operand){
 	instraddress++;
 		
 }
+
+
 
 
 

@@ -562,6 +562,9 @@ bool syntaxparser::Assign(){
 	bool bAssign = false;
 	if (token == "identifier"){
 		print();
+		// Save the token 
+		string assign_save;
+		assign_save = lexeme;
 		cout<<endl;
 		Lexer();
 
@@ -576,6 +579,8 @@ bool syntaxparser::Assign(){
 			Lexer();
 
 			Expression();
+			string addr;
+			addr = project3.get_address(assign_save);
 				if(lexeme == ";"){
 					print();
 					cout<<endl;
@@ -763,6 +768,9 @@ bool syntaxparser::While(){
 	if (lexeme == "while"){
 		print();
 		cout<<endl;
+		string addr;
+		addr = project3.get_instr_address();
+		project3.gen_inst("Label", "-999");
 		Lexer();
 
 		if(displayFlag){
@@ -780,6 +788,11 @@ bool syntaxparser::While(){
 					print();
 					cout<<endl;
 					Lexer();
+
+
+					project3.gen_inst("JUMP", addr);
+					project3.back_patch( addr);
+
 					Statement();
 					bWhile = true;
 				}else
@@ -836,6 +849,13 @@ bool syntaxparser::Relop(){
 	}else if(lexeme =="<"){
 		print();
 		Lexer();
+
+		string addr;
+		project3.gen_inst("LES", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
+
 		Relop = true;
 		if(displayFlag){
 			cout<<"<Relop> ::= <" << endl;
