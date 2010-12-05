@@ -1065,6 +1065,9 @@ bool syntaxparser::Primary(){
 	}else if(token == "integer"){
 		print();
 		cout<<endl;
+		string integer_addr;
+		integer_addr = project3.get_address(lexeme);
+		project3.gen_inst("PUSHI",integer_addr); 
 		Lexer();
 		Primary = true;
 
