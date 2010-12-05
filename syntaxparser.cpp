@@ -561,6 +561,9 @@ bool syntaxparser::Assign(){
 	bool bAssign = false;
 	if (token == "identifier"){
 		print();
+		// Save the token 
+		string assign_save;
+		assign_save = lexeme;
 		cout<<endl;
 		Lexer();
 
@@ -575,6 +578,8 @@ bool syntaxparser::Assign(){
 			Lexer();
 
 			Expression();
+			string addr;
+			addr = project3.get_address(assign_save);
 				if(lexeme == ";"){
 					print();
 					cout<<endl;

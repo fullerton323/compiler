@@ -24,16 +24,18 @@ public:
 	bool checkDuplicates(string identifier);
 	void StopAddingtoSymbolTable();
 	void printsymboltable();
+	string get_address(string identifier);
 
 
 	void gen_inst(string op, string operand);
+	
 
 
 private:
 
 	string symboltable [300][3];
 	int memoryAddress;
-	int symbolrow;
+	int symbolrow; // a counter for how many rows are in the symbol table
 	string symboltype; 
 	bool addtoTable;
 

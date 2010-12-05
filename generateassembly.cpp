@@ -85,6 +85,20 @@ void generateassembly::StopAddingtoSymbolTable(){
 	addtoTable=false;
 }
 
+string generateassembly::get_address(string identifier){
+	
+	string address; //local variable to store address
+	for (int i =0; i < symbolrow; i++){
+		if (symboltable[i][0] == identifier){
+			address = symboltable[i][1];
+			break;
+		}
+		else
+			address = "0"; // if not found set the address to the 0 location
+	}
+	return address;
+}
+
 
 void generateassembly::gen_inst(string op, string operand){
 
@@ -100,6 +114,8 @@ void generateassembly::gen_inst(string op, string operand){
 	instraddress++;
 		
 }
+
+
 
 
 
