@@ -607,6 +607,9 @@ bool syntaxparser::If(){
 	if(lexeme == "if"){
 		print();
 		cout<<endl;
+
+		string addr;
+
 		Lexer();
 		if (lexeme == "("){
 			print();
@@ -626,6 +629,10 @@ bool syntaxparser::If(){
 					Lexer();
 					bIf = true;
 					Statement();
+
+					 addr = project3.get_instr_address();
+					 project3.back_patch(addr);
+
 						if (lexeme == "endif"){
 						print();
 						cout<<endl;
