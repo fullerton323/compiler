@@ -410,8 +410,9 @@ bool syntaxparser::IDs(){
 	bool bIDs = false;
 	if(token == "identifier"){
 		
-		if(project3.checkDuplicates(lexeme))
+		if(project3.checkDuplicates(lexeme)){
 			project3.addIdentifier(lexeme);
+		}
 		else
 			error("Already declared variable");
 
