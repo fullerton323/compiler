@@ -797,6 +797,7 @@ bool syntaxparser::While(){
 					Statement();
 
 					project3.gen_inst("JUMP", addr);
+					addr = project3.get_instr_address();
 					project3.back_patch( addr);
 					bWhile = true;
 				}else
@@ -834,6 +835,13 @@ bool syntaxparser::Condition(){
 		project3.push_jumpstack(addr);
 		project3.gen_inst("JUMPZ", "-999");
 	}
+	if( op == "="){
+		project3.gen_inst("EQl", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
+	}
+
 	
 		
 
