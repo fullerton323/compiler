@@ -82,6 +82,16 @@ void generateassembly::printsymboltable(){
 	}
 }
 
+void generateassembly::printInstTable(){
+	for(int y=0; y<instraddress; y++){
+		for(int x=0; x<3; x++)
+		{
+			cout<<inst_table[y][x]<<" ";
+		}
+		cout<<endl;
+	}
+}
+
 
 void generateassembly::StopAddingtoSymbolTable(){
 

@@ -27,6 +27,7 @@ public:
 	bool checkDuplicates(string identifier);
 	void StopAddingtoSymbolTable();
 	void printsymboltable();
+	void printInstTable();
 	string get_address(string identifier);
 
 
@@ -48,11 +49,12 @@ private:
 
 
 	string inst_table [300][3];
-	int instraddress;
+
+	int instraddress; // a counter for the instruction table
 	
 	
 	stack<string> jumpstack;
-	
+
 
 	
 };
