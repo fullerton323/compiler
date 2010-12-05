@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stack>
 
 using namespace std;
 
@@ -28,6 +29,9 @@ public:
 
 	void gen_inst(string op, string operand);
 
+	void back_patch(string jump_addr);
+	string get_instr_address();
+
 
 private:
 
@@ -40,6 +44,10 @@ private:
 
 	string inst_table [300][3];
 	int instraddress;
+	
+	
+	stack<string> jumpstack;
+	
 
 	
 };

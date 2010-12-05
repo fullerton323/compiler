@@ -88,6 +88,25 @@ void generateassembly::StopAddingtoSymbolTable(){
 	addtoTable=false;
 }
 
+void generateassembly::back_patch(string jump_addr){
+
+
+
+}
+
+
+string generateassembly::get_instr_address(){
+	
+	string s;
+	stringstream out;
+	out << instraddress;
+	s=out.str();
+
+	return s;
+
+
+}
+
 
 void generateassembly::gen_inst(string op, string operand){
 
