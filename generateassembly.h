@@ -41,7 +41,7 @@ private:
 
 
 	string inst_table [300][3];
-	int instraddress;
+	int instraddress; // a counter for the instruction table
 
 	
 };

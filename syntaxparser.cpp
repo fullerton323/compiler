@@ -416,6 +416,9 @@ bool syntaxparser::IDs(){
 		else
 			error("Already declared variable");
 
+		string addr;
+		addr = project3.get_address(lexeme);
+		project3.gen_inst("PUSHM", addr);
 		
 		print();
 		Lexer();
@@ -581,6 +584,7 @@ bool syntaxparser::Assign(){
 			Expression();
 			string addr;
 			addr = project3.get_address(assign_save);
+			project3.gen_inst("POPM", addr);
 				if(lexeme == ";"){
 					print();
 					cout<<endl;
@@ -898,6 +902,7 @@ bool syntaxparser::ExpressionPrime(){
 		}
 			bExpressionPrime = true;		
 			Term();
+			project3.gen_inst("ADD", "-999");
 			ExpressionPrime();
 	}
 	else if (lexeme == "-"){
@@ -911,6 +916,7 @@ bool syntaxparser::ExpressionPrime(){
 		}
 			bExpressionPrime = true;
 			Term();
+			project3.gen_inst("SUB", "-999");
 			ExpressionPrime();
 	}
 	else{
@@ -949,7 +955,8 @@ bool syntaxparser::TermPrime(){
 			cout << "<TermPrime> ::= *<Factor><TermPrime>" << endl;
 			printproduction("<TermPrime> ::= *<Factor><TermPrime>");
 		}
-		Factor(); 
+		Factor();
+		project3.gen_inst("MUL","-999");
 		TermPrime();	
 		bTermPrime = true;		
 	}
@@ -963,6 +970,7 @@ bool syntaxparser::TermPrime(){
 		}
 		bTermPrime = true;
 		Factor();
+		project3.gen_inst("DIV", "-999");
 		TermPrime();
 	}
 	else{
