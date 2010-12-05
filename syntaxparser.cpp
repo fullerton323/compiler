@@ -126,6 +126,7 @@ void syntaxparser::Rat10F(){
 			StatementList();
 
 			project3.printsymboltable(); //// for debuging project3
+			project3.printInstTable(); // printing the project3 instruction table for debugging
 			
 			if( lexeme == "$$"){
 				print();

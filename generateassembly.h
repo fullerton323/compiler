@@ -24,6 +24,7 @@ public:
 	bool checkDuplicates(string identifier);
 	void StopAddingtoSymbolTable();
 	void printsymboltable();
+	void printInstTable();
 	string get_address(string identifier);
 
 
