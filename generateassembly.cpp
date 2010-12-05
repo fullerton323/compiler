@@ -113,7 +113,7 @@ void generateassembly::back_patch(string jump_addr){
 
 }
 
-int GetIntVal(string strConvert) { 
+int generateassembly::GetIntVal(string strConvert) { 
   int intReturn; 
 
  

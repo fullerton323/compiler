@@ -417,9 +417,7 @@ bool syntaxparser::IDs(){
 		else
 			error("Already declared variable");
 
-		string addr;
-		addr = project3.get_address(lexeme);
-		project3.gen_inst("PUSHM", addr);
+		
 		
 		print();
 		Lexer();
@@ -816,8 +814,23 @@ bool syntaxparser::Condition(){
 		printproduction("<Condition> :== <Expression> <Relop> <Expression>");
 	}
 	Expression();
+
+	string op = lexeme;
+	string addr;
+	
 	Relop();
 	Expression();
+
+	if(op == "<"){
+		project3.gen_inst("LES", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
+	}
+	
+		
+
+
 	bCondition = true;
 	return bCondition;
 }
@@ -854,13 +867,6 @@ bool syntaxparser::Relop(){
 	}else if(lexeme =="<"){
 		print();
 		Lexer();
-
-		string addr;
-		project3.gen_inst("LES", "-999");
-		addr = project3.get_instr_address();
-		project3.push_jumpstack(addr);
-		project3.gen_inst("JUMPZ", "-999");
-
 		Relop = true;
 		if(displayFlag){
 			cout<<"<Relop> ::= <" << endl;
@@ -1031,6 +1037,10 @@ bool syntaxparser::Primary(){
 	if(token == "identifier" ){
 		print();
 		cout<<endl;
+
+		string integer_addr;
+		integer_addr = project3.get_address(lexeme);
+		project3.gen_inst("PUSHM",integer_addr);
 		Lexer();
 
 		if(lexeme == "["){
@@ -1065,9 +1075,8 @@ bool syntaxparser::Primary(){
 	}else if(token == "integer"){
 		print();
 		cout<<endl;
-		string integer_addr;
-		integer_addr = project3.get_address(lexeme);
-		project3.gen_inst("PUSHI",integer_addr); 
+		
+		project3.gen_inst("PUSHI", lexeme); 
 		Lexer();
 		Primary = true;
 

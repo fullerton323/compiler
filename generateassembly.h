@@ -37,7 +37,7 @@ public:
 	void back_patch(string jump_addr);
 	string get_instr_address();
 	void push_jumpstack(string instr_address);
-
+	int GetIntVal(string strConvert);
 
 private:
 
