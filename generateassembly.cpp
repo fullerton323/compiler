@@ -49,20 +49,23 @@ bool generateassembly::checkDuplicates(string identifier){
 	bool NOduplicate=true;
 	int counter =0;
 
-	for(int y=0; y<symbolrow; y++){
-		
-			if(symboltable[y][0] == identifier){
-				counter++;
-				
-			}
-		
-	}
+	if(addtoTable){
 
-	if(counter>1){
-		NOduplicate =false;
-		cout<<"NOduplicate is false"<<endl;
-	}
+		for(int y=0; y<symbolrow; y++){
+		
+				if(symboltable[y][0] == identifier){
+					counter++;
+				}
+		
+		}
 
+		if(counter>0){
+			NOduplicate =false;
+			cout<<"NOduplicate is false"<<endl;
+		}
+
+	}
+	
 	return NOduplicate;
 
 }
