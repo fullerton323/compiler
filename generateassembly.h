@@ -29,7 +29,7 @@ public:
 	void printsymboltable();
 	void printInstTable();
 	string get_address(string identifier);
-
+	string returnSymbolType(int num);
 
 	void gen_inst(string op, string operand);
 	
@@ -46,6 +46,7 @@ private:
 	int symbolrow; // a counter for how many rows are in the symbol table
 	string symboltype; 
 	bool addtoTable;
+	
 
 
 	string inst_table [300][3];

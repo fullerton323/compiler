@@ -33,6 +33,32 @@ bool generateassembly::addIdentifier(string identifier){
 	return true;
 }
 
+
+string generateassembly::returnSymbolType(int num){
+	string temp, temp2;
+	int row;
+	
+	row = instraddress - num;
+
+	temp = inst_table[row][2];
+
+	for(int y=0; y<symbolrow; y++){
+		
+				if(symboltable[y][1] == temp){
+					
+					temp2 = symboltable[y][2];
+				}
+		
+		}
+
+
+
+
+	return temp2;
+
+}
+
+
 bool generateassembly::addType(string type){
 
 	
@@ -120,6 +146,7 @@ int generateassembly::GetIntVal(string strConvert) {
   intReturn = atoi(strConvert.c_str()); 
 
   return(intReturn); 
+
 }
 
 

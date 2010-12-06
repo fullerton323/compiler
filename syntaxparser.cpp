@@ -622,18 +622,26 @@ bool syntaxparser::If(){
 				cout<<endl;
 				Lexer();
 				Statement();
+				addr = project3.get_instr_address();
+					project3.back_patch(addr);
+				
 					
 					if(lexeme == "else"){
+					
 					print();
 					cout<<endl;
 					Lexer();
 					bIf = true;
+					
+
 					Statement();
 
-					 addr = project3.get_instr_address();
-					 project3.back_patch(addr);
+					
+
+					 
 
 						if (lexeme == "endif"){
+							
 						print();
 						cout<<endl;
 						Lexer();
@@ -641,6 +649,8 @@ bool syntaxparser::If(){
 						}
 					}else
 						if (lexeme == "endif"){
+						
+							
 						print();
 						cout<<endl;
 						Lexer();
@@ -947,6 +957,17 @@ bool syntaxparser::ExpressionPrime(){
 			bExpressionPrime = true;		
 			Term();
 			project3.gen_inst("ADD", "-999");
+
+			string type1, type2;
+
+			type1 = project3.returnSymbolType(2);
+			type2 = project3.returnSymbolType(3);
+
+			if(type1 == "boolean")
+				error("Cannot perform '+' on boolean");
+			if (type2 == "boolean")
+				error("Cannot perform '+' on boolean");
+
 			ExpressionPrime();
 	}
 	else if (lexeme == "-"){
@@ -961,6 +982,17 @@ bool syntaxparser::ExpressionPrime(){
 			bExpressionPrime = true;
 			Term();
 			project3.gen_inst("SUB", "-999");
+
+			string type1, type2;
+
+			type1 = project3.returnSymbolType(2);
+			type2 = project3.returnSymbolType(3);
+
+			if(type1 == "boolean")
+				error("Cannot perform '-' on boolean");
+			if (type2 == "boolean")
+				error("Cannot perform '-' on boolean");
+
 			ExpressionPrime();
 	}
 	else{
@@ -1001,6 +1033,17 @@ bool syntaxparser::TermPrime(){
 		}
 		Factor();
 		project3.gen_inst("MUL","-999");
+
+		string type1, type2;
+
+			type1 = project3.returnSymbolType(2);
+			type2 = project3.returnSymbolType(3);
+
+			if(type1 == "boolean")
+				error("Cannot perform '*' on boolean");
+			if (type2 == "boolean")
+				error("Cannot perform '*' on boolean");
+
 		TermPrime();	
 		bTermPrime = true;		
 	}
@@ -1015,6 +1058,17 @@ bool syntaxparser::TermPrime(){
 		bTermPrime = true;
 		Factor();
 		project3.gen_inst("DIV", "-999");
+
+		string type1, type2;
+
+			type1 = project3.returnSymbolType(2);
+			type2 = project3.returnSymbolType(3);
+
+			if(type1 == "boolean")
+				error("Cannot perform '/' on boolean");
+			if (type2 == "boolean")
+				error("Cannot perform '/' on boolean");
+
 		TermPrime();
 	}
 	else{
@@ -1138,6 +1192,10 @@ bool syntaxparser::Primary(){
 		}
 
 	}else if(lexeme == "true"){
+		
+		
+		project3.gen_inst("PUSHI", "1");
+		
 		print();
 		cout<<endl;
 		Lexer();
@@ -1147,6 +1205,9 @@ bool syntaxparser::Primary(){
 			printproduction("<Primary> ::= <true>");
 		}
 	}else if(lexeme == "false"){
+
+		project3.gen_inst("PUSHI", "0");
+
 		print();
 		cout<<endl;
 		Lexer();
