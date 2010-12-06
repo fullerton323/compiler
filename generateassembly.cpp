@@ -5,7 +5,7 @@ generateassembly::generateassembly()
 {
 		memoryAddress=1000;
 		symbolrow=0;
-		instraddress =0;
+		instraddress =1;
 		addtoTable=true;
 }
 
@@ -109,7 +109,7 @@ void generateassembly::printsymboltable(){
 }
 
 void generateassembly::printInstTable(){
-	for(int y=0; y<instraddress; y++){
+	for(int y=1; y<instraddress; y++){
 		for(int x=0; x<3; x++)
 		{
 			cout<<inst_table[y][x]<<" ";
