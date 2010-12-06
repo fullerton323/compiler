@@ -41,6 +41,7 @@ public:
 	string get_instr_address();
 	void push_jumpstack(string instr_address);
 	int GetIntVal(string strConvert);
+	string Int2String(int value);
 
 private:
 

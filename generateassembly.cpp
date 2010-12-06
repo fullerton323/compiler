@@ -211,6 +211,16 @@ string generateassembly::find_previous(int goback){
 
 }
 
+string generateassembly::Int2String(int value){
+
+	string converted;
+	stringstream ss;
+	ss << value;
+	converted = ss.str();
+	return converted;
+
+}
+
 
 
 
