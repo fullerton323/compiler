@@ -624,18 +624,22 @@ bool syntaxparser::If(){
 				Statement();
 
 				addr = project3.get_instr_address();
-				int temp = project3.GetIntVal(addr);
-				temp++; //we increment 1 instruction ahead so that we skip the if's "jumpz instruction" and go to the else
-				addr = project3.Int2String(temp);
+				if (lexeme == "else"){
+					int temp = project3.GetIntVal(addr);
+					temp++; //we increment 1 instruction ahead so that we skip the if's "jumpz instruction" and go to the else
+					addr = project3.Int2String(temp);
+				}
 				project3.back_patch(addr);
 
-				//Add the jumpz and then have the else statement backpatch
-				addr = project3.get_instr_address();
-				project3.push_jumpstack(addr);
-				project3.gen_inst("JUMPZ", "-999");
+				
 					
 					if(lexeme == "else"){
 					
+					//Add the jumpz and then have the else statement backpatch
+					addr = project3.get_instr_address();
+					project3.push_jumpstack(addr);
+					project3.gen_inst("JUMPZ", "-999");
+
 					print();
 					cout<<endl;
 					Lexer();
@@ -644,16 +648,16 @@ bool syntaxparser::If(){
 
 					Statement();
 
-					
+						//create the backpatch for the previous if statement
+						addr = project3.get_instr_address();
+						project3.back_patch(addr);
 
 						if (lexeme == "endif"){
 							
 						print();
 						cout<<endl;
 
-						//create the backpatch for the previous if statement
-						addr = project3.get_instr_address();
-						project3.back_patch(addr);
+						
 
 						Lexer();
 						bIf = true;	
@@ -664,10 +668,6 @@ bool syntaxparser::If(){
 							
 						print();
 						cout<<endl;
-
-						//create the backpatch for the previous if statement
-						addr = project3.get_instr_address();
-						project3.back_patch(addr);
 
 						Lexer();
 						bIf = true;		
