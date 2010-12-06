@@ -304,12 +304,15 @@ bool syntaxparser::Qualifier(){
 		 cout << "<Qualifier> ::= " << lexeme << endl;
 		 printproduction("<Qualifier> ::= " + lexeme);
 	 }
-	if (lexeme == "int" || lexeme =="boolean" || lexeme == "real")
+	if (lexeme == "int" || lexeme =="boolean")
 	{
 		project3.addType(lexeme);
 		print();		
 		bQualifier = true;
 		Lexer();
+	}
+	else if (lexeme == "real"){
+		error("The 'real' type is not valid for Rat10F");
 	}
 	return bQualifier;
 }
@@ -344,7 +347,7 @@ bool syntaxparser::OptDeclarationList(){
 	bool OptDeclarationList=false;
 
 	//checks to see if next lexeme is a qualifier
-	if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
+	if(lexeme == "int" || lexeme == "boolean"){
 	
 		if (displayFlag){
 			cout<<endl<<"<OptDeclarationList> ::= <DeclarationList>"<<endl;
@@ -352,6 +355,9 @@ bool syntaxparser::OptDeclarationList(){
 		}
 		OptDeclarationList = true;
 		DeclarationList();
+	}
+	else if (lexeme == "real"){
+		error("The 'real' type is not valid for Rat10F");
 	}
 	else{ // if no optional declaration list then its empty
 
@@ -377,7 +383,7 @@ bool syntaxparser::DeclarationList(){
 	//checks to see if next lexeme is a qualifier
 	if(lexeme ==";"){
 		Lexer();
-		if(lexeme == "int" || lexeme == "boolean" || lexeme == "real"){
+		if(lexeme == "int" || lexeme == "boolean"){
 			project3.addType(lexeme);
 			Lexer();
 			// if we have a semi colon then we recursively call for more additional declarations
@@ -385,6 +391,9 @@ bool syntaxparser::DeclarationList(){
 			
 			
 			DeclarationList();
+		}
+		else if (lexeme == "real"){
+			error("The 'real' type is not valid for Rat10F");
 		}
 	}
 	else
@@ -1256,7 +1265,7 @@ bool syntaxparser::Primary(){
 			}else
 				error("Missing ')'");
 
-	}else if(token == "real"){
+	}/*else if(token == "real"){
 		print();
 		cout<<endl;
 		Lexer();
@@ -1267,7 +1276,7 @@ bool syntaxparser::Primary(){
 			printproduction("<Primary> ::= <real>");
 		}
 
-	}else if(lexeme == "true"){
+	}*/else if(lexeme == "true"){
 		
 		
 		project3.gen_inst("PUSHI", "1");
