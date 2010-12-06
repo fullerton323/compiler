@@ -1160,6 +1160,10 @@ bool syntaxparser::Primary(){
 						cout<<"<Primary> ::= <identifier> [ <IDs> ]"<<endl;
 						printproduction("<Primary> ::= <identifier> [ <IDs> ]");
 				}
+				// pushes the index of that array
+				string index;
+				index = project3.get_address(lexeme);
+				project3.gen_inst("PUSHM", index);
 				IDs();
 
 				if(lexeme == "]"){
