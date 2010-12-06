@@ -1,3 +1,12 @@
+/*
+ * Authors: Bryan Perez & Charles Wang
+ * CPSC 323 - Fall 2010 (11:30-12:45)
+ * Assignment # 3
+
+ Description: The implementation file for generating the assembly. 
+
+**/
+
 #include "generateassembly.h"
 
 
@@ -10,9 +19,6 @@ generateassembly::generateassembly()
 
 		
 }
-
-
-
 
 
 bool generateassembly::addIdentifier(string identifier){
@@ -237,8 +243,3 @@ string generateassembly::Int2String(int value){
 	return converted;
 
 }
-
-
-
-
-

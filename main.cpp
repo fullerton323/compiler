@@ -1,10 +1,10 @@
 /*
  * Authors: Bryan Perez & Charles Wang
  * CPSC 323 - Fall 2010 (11:30-12:45)
- * Assignment # 2 - Syntax Analyzer
+ * Assignment # 3
 
- Description: The following program is a compiler with the lexical and syntax analyzer components. 
- Input: A text file defined by the user
+ Description: The following program is a compiler with the lexical analyzer, syntax analyzer, and object code generation components. 
+ Input: A text file containing source code of the RAT10F language defined by the user
  Output: Tokens and Lexemes are printed out to a file defined by the user
 
 **/
