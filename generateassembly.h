@@ -30,6 +30,9 @@ public:
 	void printInstTable();
 	string get_address(string identifier);
 	string returnSymbolType(int num);
+	string find_previous(int goback);
+
+
 
 	void gen_inst(string op, string operand);
 	
