@@ -13,12 +13,16 @@
 // Parameters: The files names of the lexical analyzer output and the production rules output
 // Purpose: Initialize the file streams, the line counter
 
-syntaxparser::syntaxparser(string lexfilename, string productionfile){
+syntaxparser::syntaxparser(string lexfilename, string productionfile, string assemblyfile){
 		filename = lexfilename;
 		file.open(filename);
 		lineNumber = 0; //default set to 0
 		filename = productionfile;
 		outfile.open(productionfile);
+
+		assemblyfilename = assemblyfile;
+		
+
 
 		
 }
@@ -129,8 +133,8 @@ void syntaxparser::Rat10F(){
 			
 			StatementList();
 
-			project3.printsymboltable(); //// for debuging project3
-			project3.printInstTable(); // printing the project3 instruction table for debugging
+			//project3.printsymboltable(assemblyfilename); 
+			project3.printInstTable(assemblyfilename); // printing the project3 instruction table to file
 			
 			if( lexeme == "$$"){
 				print();

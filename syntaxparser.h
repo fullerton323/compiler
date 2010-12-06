@@ -19,7 +19,7 @@ class syntaxparser{
 
 public:
 
-	syntaxparser(string lexfilename, string productionfile);
+	syntaxparser(string lexfilename, string productionfile, string assemblyfile);
 
 	void Rat10F();
 	bool OptFunctionDefinitions();
@@ -68,4 +68,5 @@ private:
 	bool displayFlag; // flag for displaying production rules
 	ofstream outfile;
 	generateassembly project3;
+	string assemblyfilename;
 };

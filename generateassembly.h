@@ -12,7 +12,7 @@
 #include <sstream>
 #include <stack>
 #include <stdlib.h> 
-
+#include <fstream>
 
 using namespace std;
 
@@ -26,8 +26,8 @@ public:
 	bool addType(string type);
 	bool checkDuplicates(string identifier);
 	void StopAddingtoSymbolTable();
-	void printsymboltable();
-	void printInstTable();
+	void printsymboltable(string assemblyfilename);
+	void printInstTable(string assemblyfilename);
 	string get_address(string identifier);
 	string returnSymbolType(int num);
 	string find_previous(int goback);
@@ -51,15 +51,10 @@ private:
 	string symboltype; 
 	bool addtoTable;
 	
-
-
 	string inst_table [300][3];
-
 	int instraddress; // a counter for the instruction table
-	
-	
 	stack<string> jumpstack;
-
+	ofstream file;
 
 	
 };

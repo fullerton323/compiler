@@ -7,6 +7,8 @@ generateassembly::generateassembly()
 		symbolrow=0;
 		instraddress =1;
 		addtoTable=true;
+
+		
 }
 
 
@@ -87,7 +89,7 @@ bool generateassembly::checkDuplicates(string identifier){
 
 		if(counter>0){
 			NOduplicate =false;
-			cout<<"NOduplicate is false"<<endl;
+			
 		}
 
 	}
@@ -97,7 +99,9 @@ bool generateassembly::checkDuplicates(string identifier){
 }
 
 
-void generateassembly::printsymboltable(){
+void generateassembly::printsymboltable(string assemblyfilename){
+
+	
 
 	for(int y=0; y<symbolrow; y++){
 		for(int x=0; x<3; x++)
@@ -106,16 +110,29 @@ void generateassembly::printsymboltable(){
 		}
 		cout<<endl;
 	}
+
+
+	
+
+	
+
+
 }
 
-void generateassembly::printInstTable(){
+void generateassembly::printInstTable(string assemblyfilename){
+
+	file.open(assemblyfilename);
+
 	for(int y=1; y<instraddress; y++){
 		for(int x=0; x<3; x++)
 		{
-			cout<<inst_table[y][x]<<" ";
+			file<<inst_table[y][x]<<" ";
 		}
-		cout<<endl;
+		file<<endl;
 	}
+
+	file.close();
+
 }
 
 
