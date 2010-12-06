@@ -113,10 +113,14 @@ void syntaxparser::Rat10F(){
 	Lexer(); print();
 	if( lexeme == "$$"){
 		if (displayFlag){
-			cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$" << endl;
-			printproduction("<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$");
+			//cout << "<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$" << endl;
+			//printproduction("<Rat10F> ::= $$<Opt Function Definitions> $$ <Opt Declaration List> <Statement List> $$");
+			cout << "<Rat10F> ::= $$ $$ <Opt Declaration List> <Statement List> $$" << endl;
+			printproduction("<Rat10F> ::= $$ $$ <Opt Declaration List> <Statement List> $$");
+			
 		}	
-		OptFunctionDefinitions();
+		//OptFunctionDefinitions();
+		Lexer();
 		if( lexeme == "$$"){
 			Lexer(); 
 			OptDeclarationList();
