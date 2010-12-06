@@ -1171,9 +1171,20 @@ bool syntaxparser::Primary(){
 		print();
 		cout<<endl;
 
+		//check to see if the lexeme is either true or false
+		if (lexeme == "true")
+		{
+			project3.gen_inst("PUSHI", "1");
+		}
+		else if (lexeme == "false")
+		{
+			project3.gen_inst("PUSHI", "0");
+		}
+		else{
 		string integer_addr;
 		integer_addr = project3.get_address(lexeme);
 		project3.gen_inst("PUSHM",integer_addr);
+		}
 		Lexer();
 
 		if(lexeme == "["){
