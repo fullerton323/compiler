@@ -655,7 +655,7 @@ bool syntaxparser::If(){
 					//Add the jumpz and then have the else statement backpatch
 					addr = project3.get_instr_address();
 					project3.push_jumpstack(addr);
-					project3.gen_inst("JUMPZ", "-999");
+					project3.gen_inst("JUMP", "-999");
 
 					print();
 					cout<<endl;
