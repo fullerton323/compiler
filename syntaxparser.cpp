@@ -874,6 +874,9 @@ bool syntaxparser::Condition(){
 	if (op == "/=" ){
 		// NOT EQUALS performs the same computation as equals
 		project3.gen_inst("EQl", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
 	}
 
 	if (op == "=>"){
@@ -882,6 +885,9 @@ bool syntaxparser::Condition(){
 		project3.gen_inst("PUSHM",prev1);
 		project3.gen_inst("PUSHM",prev2);
 		project3.gen_inst("GTR", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
 	}
 	if (op == "<="){
 		//less than and equal to
@@ -889,6 +895,9 @@ bool syntaxparser::Condition(){
 		project3.gen_inst("PUSHM",prev1);
 		project3.gen_inst("PUSHM",prev2);
 		project3.gen_inst("EQL", "-999");
+		addr = project3.get_instr_address();
+		project3.push_jumpstack(addr);
+		project3.gen_inst("JUMPZ", "-999");
 	}
 
 	
